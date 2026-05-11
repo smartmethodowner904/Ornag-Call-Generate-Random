@@ -105,7 +105,6 @@ function updateCountry() {
 /* ================= CREATE VOICE ================= */
 
 async function createVoice(code, file) {
-async function createVoice(code, file) {
 
   const spokenCode = codeToSpeech(code);
 
