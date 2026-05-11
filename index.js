@@ -31,7 +31,7 @@ let codeIndex = 0;
 let currentCountry = countries[0];
 let countryStart = Date.now();
 
-/* ================= PREMIUM EMOJI IDS (FROM RAW BOT) ================= */
+/* ================= PREMIUM EMOJI MAP ================= */
 
 const emojiMap = [
   { char: "🔥", id: "5399898266265475100" },
@@ -44,31 +44,44 @@ const emojiMap = [
   { char: "⏱", id: "5458640241915084025" }
 ];
 
-/* ================= ENTITY BUILDER (FIXED) ================= */
+/* ================= SAFE UTF-16 INDEX ================= */
+
+function getIndexes(text, char) {
+  const indexes = [];
+  let start = 0;
+
+  while (true) {
+    const index = text.indexOf(char, start);
+    if (index === -1) break;
+
+    indexes.push(index);
+    start = index + char.length;
+  }
+
+  return indexes;
+}
+
+/* ================= ENTITY BUILDER (FIXED PRODUCTION SAFE) ================= */
 
 function buildEntities(text) {
 
   let entities = [];
 
-  emojiMap.forEach(e => {
+  for (const e of emojiMap) {
 
-    let start = 0;
+    const indexes = getIndexes(text, e.char);
 
-    while (true) {
-      const index = text.indexOf(e.char, start);
-      if (index === -1) break;
+    for (const index of indexes) {
 
       entities.push({
         type: "custom_emoji",
         offset: index,
-        length: 1,
+        length: [...e.char].length,
         custom_emoji_id: e.id
       });
 
-      start = index + 1;
     }
-
-  });
+  }
 
   return entities;
 }
@@ -92,7 +105,7 @@ function codeToSpeech(code) {
   return code.toString().split("").map(d => words[d]).join(" ");
 }
 
-/* ================= NUMBER ================= */
+/* ================= NUMBER GENERATE ================= */
 
 function generateNumber(prefix) {
   const last = Math.floor(1000 + Math.random() * 9000);
@@ -108,9 +121,11 @@ function getDelay() {
 /* ================= COUNTRY ROTATION ================= */
 
 function updateCountry() {
+
   const now = Date.now();
 
   if (now - countryStart >= 3600000) {
+
     countryIndex++;
 
     if (countryIndex >= countries.length) {
@@ -189,9 +204,16 @@ async function sendCall() {
 
 Powered by Smart System`;
 
-    await bot.telegram.sendMessage(GROUP_ID, caption, {
-      entities: buildEntities(caption)
-    });
+    /* ================= SAFE SEND ================= */
+
+    await bot.telegram.sendAudio(
+      GROUP_ID,
+      { source: file },
+      {
+        caption: caption,
+        entities: buildEntities(caption)
+      }
+    );
 
     setTimeout(async () => {
       await fs.remove(file);
@@ -245,6 +267,6 @@ bot.command("off", (ctx) => {
 /* ================= LAUNCH ================= */
 
 bot.launch();
-console.log("🤖 Bot Started...");
+console.log("🤖 Bot Started Successfully...");
 
 sendCall();
