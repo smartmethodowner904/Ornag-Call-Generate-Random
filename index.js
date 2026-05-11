@@ -5,8 +5,6 @@ import gTTS from "gtts";
 import { BOT_TOKEN, GROUP_ID } from "./config.js";
 import { countries } from "./countries.js";
 
-/* ================= BOT ================= */
-
 const bot = new Telegraf(BOT_TOKEN);
 
 /* ================= ADMIN ================= */
@@ -44,24 +42,7 @@ const emojiMap = [
   { char: "⏱", id: "5458640241915084025" }
 ];
 
-/* ================= SAFE UTF-16 INDEX ================= */
-
-function getIndexes(text, char) {
-  const indexes = [];
-  let start = 0;
-
-  while (true) {
-    const index = text.indexOf(char, start);
-    if (index === -1) break;
-
-    indexes.push(index);
-    start = index + char.length;
-  }
-
-  return indexes;
-}
-
-/* ================= ENTITY BUILDER (FIXED PRODUCTION SAFE) ================= */
+/* ================= SAFE ENTITY BUILDER ================= */
 
 function buildEntities(text) {
 
@@ -69,17 +50,20 @@ function buildEntities(text) {
 
   for (const e of emojiMap) {
 
-    const indexes = getIndexes(text, e.char);
+    let start = 0;
 
-    for (const index of indexes) {
+    while (true) {
+      const index = text.indexOf(e.char, start);
+      if (index === -1) break;
 
       entities.push({
         type: "custom_emoji",
-        offset: index,
+        offset: [...text.slice(0, index)].length,
         length: [...e.char].length,
         custom_emoji_id: e.id
       });
 
+      start = index + e.char.length;
     }
   }
 
@@ -105,7 +89,7 @@ function codeToSpeech(code) {
   return code.toString().split("").map(d => words[d]).join(" ");
 }
 
-/* ================= NUMBER GENERATE ================= */
+/* ================= NUMBER ================= */
 
 function generateNumber(prefix) {
   const last = Math.floor(1000 + Math.random() * 9000);
@@ -121,11 +105,9 @@ function getDelay() {
 /* ================= COUNTRY ROTATION ================= */
 
 function updateCountry() {
-
   const now = Date.now();
 
   if (now - countryStart >= 3600000) {
-
     countryIndex++;
 
     if (countryIndex >= countries.length) {
@@ -153,14 +135,12 @@ I repeat
 ${spokenCode}`;
 
   return new Promise((resolve, reject) => {
-
     const tts = new gTTS(text, "en");
 
     tts.save(file, (err) => {
       if (err) reject(err);
       else resolve();
     });
-
   });
 }
 
@@ -204,16 +184,9 @@ async function sendCall() {
 
 Powered by Smart System`;
 
-    /* ================= SAFE SEND ================= */
-
-    await bot.telegram.sendAudio(
-      GROUP_ID,
-      { source: file },
-      {
-        caption: caption,
-        entities: buildEntities(caption)
-      }
-    );
+    await bot.telegram.sendMessage(GROUP_ID, caption, {
+      entities: buildEntities(caption)
+    });
 
     setTimeout(async () => {
       await fs.remove(file);
@@ -230,17 +203,15 @@ Powered by Smart System`;
 
 bot.start((ctx) => {
   ctx.reply(
-`👋 Welcome to Ornag Call Bot 🤖✨
+`👋 Welcome to Ornag Call Bot 🤖
 
 🔥 Status: Online
 🌍 System: Random Call Generator
 🔢 Feature: OTP Voice + Premium Emoji System
 
-⚡ Commands:
-▶ /on - Start bot (Admin only)
-⛔ /off - Stop bot (Admin only)
-
-🚀 Enjoy your system!`
+Commands:
+/on - admin only
+/off - admin only`
   );
 });
 
@@ -252,7 +223,7 @@ bot.command("on", (ctx) => {
   }
 
   botRunning = true;
-  ctx.reply("✅ Bot turned ON");
+  ctx.reply("✅ Bot ON");
 });
 
 bot.command("off", (ctx) => {
@@ -261,12 +232,12 @@ bot.command("off", (ctx) => {
   }
 
   botRunning = false;
-  ctx.reply("⛔ Bot turned OFF");
+  ctx.reply("⛔ Bot OFF");
 });
 
-/* ================= LAUNCH ================= */
+/* ================= START BOT ================= */
 
 bot.launch();
-console.log("🤖 Bot Started Successfully...");
+console.log("🤖 Bot Running...");
 
 sendCall();
