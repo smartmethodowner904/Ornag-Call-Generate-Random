@@ -158,7 +158,7 @@ async function sendCall() {
 ⏰ <b>Time:</b> ${time}
 🌍 <b>Country:</b> ${currentCountry.flag} ${currentCountry.name}
 ☎️ <b>Number:</b> <code>${number}</code>
-🔢 <b>Code:</b> <code>XXX-XXX</code>
+🔢 <b>Code:</b> <code>New-Panel-Soon</code>
 ⏱ <b>Duration:</b> 24s
 ━━━━━━━━━━━━━━
 
