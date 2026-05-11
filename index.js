@@ -5,7 +5,7 @@ import gTTS from "gtts";
 import { BOT_TOKEN, GROUP_ID } from "./config.js";
 import { countries } from "./countries.js";
 
-/* ================= BOT INIT ================= */
+/* ================= BOT ================= */
 
 const bot = new Telegraf(BOT_TOKEN);
 
@@ -31,11 +31,11 @@ let codeIndex = 0;
 let currentCountry = countries[0];
 let countryStart = Date.now();
 
-/* ================= PREMIUM EMOJI MAP ================= */
+/* ================= PREMIUM EMOJI IDS (FROM RAW BOT) ================= */
 
 const emojiMap = [
   { char: "🔥", id: "5399898266265475100" },
-  { char: "🌍", id: "5399898266265475100" },
+  { char: "🌍", id: "5852452429009784458" },
   { char: "✨", id: "5852452429009784458" },
   { char: "🕒", id: "5215394081911351762" },
   { char: "🇮🇹", id: "5291783691633179315" },
@@ -44,28 +44,36 @@ const emojiMap = [
   { char: "⏱", id: "5458640241915084025" }
 ];
 
-/* ================= ENTITY BUILDER ================= */
+/* ================= ENTITY BUILDER (FIXED) ================= */
 
 function buildEntities(text) {
+
   let entities = [];
 
   emojiMap.forEach(e => {
-    const index = text.indexOf(e.char);
 
-    if (index !== -1) {
+    let start = 0;
+
+    while (true) {
+      const index = text.indexOf(e.char, start);
+      if (index === -1) break;
+
       entities.push({
         type: "custom_emoji",
         offset: index,
         length: 1,
         custom_emoji_id: e.id
       });
+
+      start = index + 1;
     }
+
   });
 
   return entities;
 }
 
-/* ================= DIGIT TO SPEECH ================= */
+/* ================= DIGIT SPEECH ================= */
 
 function codeToSpeech(code) {
   const words = {
@@ -84,7 +92,7 @@ function codeToSpeech(code) {
   return code.toString().split("").map(d => words[d]).join(" ");
 }
 
-/* ================= NUMBER GENERATE ================= */
+/* ================= NUMBER ================= */
 
 function generateNumber(prefix) {
   const last = Math.floor(1000 + Math.random() * 9000);
@@ -97,7 +105,7 @@ function getDelay() {
   return 7000;
 }
 
-/* ================= COUNTRY SWITCH ================= */
+/* ================= COUNTRY ROTATION ================= */
 
 function updateCountry() {
   const now = Date.now();
@@ -114,7 +122,7 @@ function updateCountry() {
   }
 }
 
-/* ================= CREATE VOICE ================= */
+/* ================= VOICE ================= */
 
 async function createVoice(code, file) {
 
@@ -181,14 +189,9 @@ async function sendCall() {
 
 Powered by Smart System`;
 
-    await bot.telegram.sendAudio(
-      GROUP_ID,
-      { source: file },
-      {
-        caption: caption,
-        entities: buildEntities(caption)
-      }
-    );
+    await bot.telegram.sendMessage(GROUP_ID, caption, {
+      entities: buildEntities(caption)
+    });
 
     setTimeout(async () => {
       await fs.remove(file);
@@ -201,7 +204,7 @@ Powered by Smart System`;
   setTimeout(sendCall, getDelay());
 }
 
-/* ================= START MESSAGE ================= */
+/* ================= START ================= */
 
 bot.start((ctx) => {
   ctx.reply(
@@ -222,7 +225,6 @@ bot.start((ctx) => {
 /* ================= ADMIN COMMANDS ================= */
 
 bot.command("on", (ctx) => {
-
   if (ctx.from.id !== ADMIN_ID) {
     return ctx.reply("🚫 This command is only for admin");
   }
@@ -232,7 +234,6 @@ bot.command("on", (ctx) => {
 });
 
 bot.command("off", (ctx) => {
-
   if (ctx.from.id !== ADMIN_ID) {
     return ctx.reply("🚫 This command is only for admin");
   }
@@ -241,7 +242,7 @@ bot.command("off", (ctx) => {
   ctx.reply("⛔ Bot turned OFF");
 });
 
-/* ================= BOT START ================= */
+/* ================= LAUNCH ================= */
 
 bot.launch();
 console.log("🤖 Bot Started...");
