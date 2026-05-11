@@ -162,7 +162,7 @@ async function sendCall() {
 ⏱ <b>Duration:</b> 24s
 ━━━━━━━━━━━━━━
 
-⚡ Mode: Call To Mp3 Generator, <a href="https://t.me/+2R-AXlxNPWthNGFh">Click Here to join</a>
+⚡ <b>Mode:</b> <b>Call To Mp3 Generator</b> — <a href="https://t.me/+2R-AXlxNPWthNGFh">Click Here to join</a>
 
 <b><i>Powered by Smart Method 🤖</i></b>`;
 
