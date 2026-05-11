@@ -11,7 +11,7 @@ const bot = new Telegraf(BOT_TOKEN);
 
 /* ================= ADMIN ================= */
 
-const ADMIN_ID = 123456789; // 👉 এখানে তোমার Telegram ID দাও
+const ADMIN_ID = 8136997138; // 👉 এখানে তোমার Telegram ID দাও
 
 /* ================= STATE ================= */
 
