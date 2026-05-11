@@ -71,13 +71,6 @@ export const countries = [
   },
 
   {
-    name: "Ethiopia",
-    code: "+251",
-    flag: "🇪🇹",
-    lang: "id"
-  },
-
-  {
     name: "Singapore",
     code: "+65",
     flag: "🇸🇬",
