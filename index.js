@@ -5,7 +5,17 @@ import gTTS from "gtts";
 import { BOT_TOKEN, GROUP_ID } from "./config.js";
 import { countries } from "./countries.js";
 
+/* ================= BOT INIT ================= */
+
 const bot = new Telegraf(BOT_TOKEN);
+
+/* ================= ADMIN ================= */
+
+const ADMIN_ID = 123456789; // 👉 এখানে তোমার Telegram ID দাও
+
+/* ================= STATE ================= */
+
+let botRunning = true;
 
 /* ================= SAFE INIT ================= */
 
@@ -103,11 +113,16 @@ Your verification code is ${spokenCode}`;
 
 async function sendCall() {
 
+  if (!botRunning) {
+    setTimeout(sendCall, 2000);
+    return;
+  }
+
   try {
 
     updateCountry();
 
-    const item = codes[codeIndex];
+    const code = codes[codeIndex];
 
     codeIndex++;
 
@@ -116,7 +131,6 @@ async function sendCall() {
     }
 
     const number = generateNumber(currentCountry.code);
-    const code = item;
 
     const file = `./temp/${Date.now()}.mp3`;
 
@@ -130,6 +144,7 @@ async function sendCall() {
 🕒 Time: ${time}
 ${currentCountry.flag} Country: ${currentCountry.name}
 ☎️ Number: ${number}
+🔢 Code: ${code}
 ⏱ Duration: 10s
 
 Powered by Smart Method`;
@@ -151,10 +166,32 @@ Powered by Smart Method`;
   setTimeout(sendCall, getDelay());
 }
 
-/* ================= BOT START ================= */
+/* ================= ADMIN COMMANDS ================= */
+
+bot.command("on", (ctx) => {
+
+  if (ctx.from.id !== ADMIN_ID) {
+    return ctx.reply("🚫 This command is only for admin");
+  }
+
+  botRunning = true;
+  ctx.reply("✅ Bot turned ON");
+});
+
+bot.command("off", (ctx) => {
+
+  if (ctx.from.id !== ADMIN_ID) {
+    return ctx.reply("🚫 This command is only for admin");
+  }
+
+  botRunning = false;
+  ctx.reply("⛔ Bot turned OFF");
+});
+
+/* ================= START ================= */
 
 bot.start((ctx) => {
-  ctx.reply("🤖 Ornag Call Bot Running (TEST MODE 7s)");
+  ctx.reply("🤖 Ornag Call Bot Running (TEST MODE)");
 });
 
 bot.launch();
