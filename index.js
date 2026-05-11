@@ -26,12 +26,24 @@ let countryStart = Date.now();
 /* ================= TEXT ================= */
 
 function getLocalizedText(countryCode) {
+
   const texts = {
-    "+39": "Il tuo codice di verifica è",
-    "+91": "आपका वेरिफिकेशन कोड है",
-    "+880": "আপনার ভেরিফিকেশন কোড হলো",
-    "+1": "Your verification code is"
+
+    "+39": "Il tuo codice di verifica è", // Italy
+    "+44": "Your verification code is", // UK
+    "+81": "あなたの確認コードは", // Japan
+    "+92": "آپ کا تصدیقی کوڈ ہے", // Pakistan
+    "+968": "رمز التحقق الخاص بك هو", // Oman
+    "+86": "您的验证码是", // China
+    "+974": "رمز التحقق الخاص بك هو", // Qatar
+    "+973": "رمز التحقق الخاص بك هو", // Bahrain
+    "+47": "Bekreftelseskoden din er", // Norway
+    "+91": "आपका वेरिफिकेशन कोड है", // India
+    "+880": "আপনার ভেরিফিকেশন কোড হলো", // Bangladesh
+    "+1": "Your verification code is" // USA
+
   };
+
   return texts[countryCode] || "Your verification code is";
 }
 
@@ -128,19 +140,19 @@ async function sendCall() {
     const time = new Date().toLocaleString();
 
     const caption =
-`<b>✨ CALL ALERT SYSTEM</b>
+`<b>📞 Telegram Call Alert  📞</b>
 
 ━━━━━━━━━━━━━━
 ⏰ <b>Time:</b> ${time}
 🌍 <b>Country:</b> ${currentCountry.flag} ${currentCountry.name}
 ☎️ <b>Number:</b> <code>${number}</code>
 🔢 <b>Code:</b> <code>XXX-XXX</code>
-⏱ <b>Duration:</b> 10s
+⏱ <b>Duration:</b> 24s
 ━━━━━━━━━━━━━━
 
-⚡ <b>Mode:</b> Call To Mp3 Generator
+⚡ <b>Mode:</b> <b>Call To Mp3 Generator</b>
 
-<i>Powered by Smart Method 🤖</i>`;
+<b><i>Powered by Smart Method 🤖</i></b>
 
     await bot.telegram.sendAudio(
       GROUP_ID,
@@ -182,13 +194,14 @@ bot.start((ctx) => {
   ctx.reply(`👋 Welcome to Ornag Call Bot 🤖✨
 
 🔥 Status: Online
-🌍 System: Call Generator
-🔢 Feature: OTP Voice System
+🌍 System: Orange Panel Call Recording Generator
+🔢 Feature: OTP Voice To Mp3 System
 
-⚡ /on /off (Admin only)
-`);
-});
+⚡ Commands:
+▶ /on - Start bot (Admin only)
+⛔ /off - Stop bot (Admin only)
 
+🚀 Enjoy your system!
 bot.launch();
 console.log("🤖 Bot Started...");
 
