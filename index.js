@@ -11,7 +11,7 @@ const bot = new Telegraf(BOT_TOKEN);
 
 /* ================= ADMIN ================= */
 
-const ADMIN_ID = 8136997138; // 👉 এখানে তোমার Telegram ID দাও
+const ADMIN_ID = 8136997138;
 
 /* ================= STATE ================= */
 
@@ -30,6 +30,20 @@ let codeIndex = 0;
 
 let currentCountry = countries[0];
 let countryStart = Date.now();
+
+/* ================= LANGUAGE TEXT ================= */
+
+function getLocalizedText(countryCode) {
+
+  const texts = {
+    "+39": "Il tuo codice di verifica è",
+    "+91": "आपका वेरिफिकेशन कोड है",
+    "+880": "আপনার ভেরিফিকেশন কোড হলো",
+    "+1": "Your verification code is"
+  };
+
+  return texts[countryCode] || "Your verification code is";
+}
 
 /* ================= CODE TO SPEECH ================= */
 
@@ -64,7 +78,7 @@ function generateNumber(prefix) {
 /* ================= DELAY ================= */
 
 function getDelay() {
-  return 7000; // TEST MODE
+  return 7000;
 }
 
 /* ================= COUNTRY SWITCH ================= */
@@ -90,12 +104,16 @@ async function createVoice(code, file) {
 
   const spokenCode = codeToSpeech(code);
 
+  const langText = getLocalizedText(currentCountry.code);
+
   const text =
-`Your verification code is ${spokenCode}
+`${langText}
+
+${spokenCode}
 
 I repeat
 
-Your verification code is ${spokenCode}`;
+${spokenCode}`;
 
   return new Promise((resolve, reject) => {
 
@@ -139,7 +157,7 @@ async function sendCall() {
     const time = new Date().toLocaleString();
 
     const caption =
-`🔥 NEW 🌍 ${currentCountry.name} CALL RECEIVED ✨
+`🔥 NEW 🌍 CALL RECEIVED ✨
 
 🕒 Time: ${time}
 ${currentCountry.flag} Country: ${currentCountry.name}
@@ -147,7 +165,7 @@ ${currentCountry.flag} Country: ${currentCountry.name}
 🔢 Code: ${code}
 ⏱ Duration: 10s
 
-Powered by Smart Method`;
+Powered by Smart System`;
 
     await bot.telegram.sendAudio(
       GROUP_ID,
@@ -175,7 +193,7 @@ bot.command("on", (ctx) => {
   }
 
   botRunning = true;
-  ctx.reply("✅ Bot turned ON");
+  ctx.reply("✅ Bot is NOW ON");
 });
 
 bot.command("off", (ctx) => {
@@ -185,29 +203,32 @@ bot.command("off", (ctx) => {
   }
 
   botRunning = false;
-  ctx.reply("⛔ Bot turned OFF");
+  ctx.reply("⛔ Bot is NOW OFF");
 });
 
-/* ================= START ================= */
+/* ================= START MESSAGE ================= */
 
 bot.start((ctx) => {
   ctx.reply(
 `👋 Welcome to Ornag Call Bot 🤖✨
 
-🔥 Status: Online & Running
+🔥 Status: Online
 🌍 System: Random Country Call Generator
-🔢 Feature: OTP Voice + Fake Call Simulation
+🔢 Feature: OTP Voice + Fake Call System
 
 ⚡ Commands:
 ▶ /on - Start bot (Admin only)
 ⛔ /off - Stop bot (Admin only)
 
-💡 Enjoy your smart call system 🚀
-
-━━━━━━━━━━━━━━
-👑 Powered by Smart Method`
+🚀 Enjoy your system!`
   );
 });
+
+/* ================= BOT START ================= */
+
+bot.launch();
+
+console.log("🤖 Bot Started...");
 
 /* ================= LOOP ================= */
 
