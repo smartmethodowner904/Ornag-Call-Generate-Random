@@ -130,7 +130,6 @@ async function sendCall() {
 🕒 Time: ${time}
 ${currentCountry.flag} Country: ${currentCountry.name}
 ☎️ Number: ${number}
-🔢 Code: ${code}
 ⏱ Duration: 10s
 
 Powered by Smart Method`;
