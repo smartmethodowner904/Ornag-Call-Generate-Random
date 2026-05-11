@@ -31,7 +31,7 @@ let codeIndex = 0;
 let currentCountry = countries[0];
 let countryStart = Date.now();
 
-/* ================= EMOJI MAP (CUSTOM IDs) ================= */
+/* ================= PREMIUM EMOJI MAP ================= */
 
 const emojiMap = [
   { char: "🔥", id: "5399898266265475100" },
@@ -50,7 +50,7 @@ function buildEntities(text) {
   let entities = [];
 
   emojiMap.forEach(e => {
-    let index = text.indexOf(e.char);
+    const index = text.indexOf(e.char);
 
     if (index !== -1) {
       entities.push({
@@ -65,7 +65,7 @@ function buildEntities(text) {
   return entities;
 }
 
-/* ================= TEXT TO SPEECH ================= */
+/* ================= DIGIT TO SPEECH ================= */
 
 function codeToSpeech(code) {
   const words = {
@@ -84,7 +84,7 @@ function codeToSpeech(code) {
   return code.toString().split("").map(d => words[d]).join(" ");
 }
 
-/* ================= NUMBER ================= */
+/* ================= NUMBER GENERATE ================= */
 
 function generateNumber(prefix) {
   const last = Math.floor(1000 + Math.random() * 9000);
@@ -114,16 +114,14 @@ function updateCountry() {
   }
 }
 
-/* ================= VOICE ================= */
+/* ================= CREATE VOICE ================= */
 
 async function createVoice(code, file) {
 
   const spokenCode = codeToSpeech(code);
 
-  const langText = "Your verification code is";
-
   const text =
-`${langText}
+`Your verification code is
 
 ${spokenCode}
 
@@ -183,9 +181,14 @@ async function sendCall() {
 
 Powered by Smart System`;
 
-    await bot.telegram.sendMessage(GROUP_ID, caption, {
-      entities: buildEntities(caption)
-    });
+    await bot.telegram.sendAudio(
+      GROUP_ID,
+      { source: file },
+      {
+        caption: caption,
+        entities: buildEntities(caption)
+      }
+    );
 
     setTimeout(async () => {
       await fs.remove(file);
@@ -198,7 +201,7 @@ Powered by Smart System`;
   setTimeout(sendCall, getDelay());
 }
 
-/* ================= COMMANDS ================= */
+/* ================= START MESSAGE ================= */
 
 bot.start((ctx) => {
   ctx.reply(
@@ -212,9 +215,11 @@ bot.start((ctx) => {
 ▶ /on - Start bot (Admin only)
 ⛔ /off - Stop bot (Admin only)
 
-🚀 Enjoy!`
+🚀 Enjoy your system!`
   );
 });
+
+/* ================= ADMIN COMMANDS ================= */
 
 bot.command("on", (ctx) => {
 
@@ -236,7 +241,7 @@ bot.command("off", (ctx) => {
   ctx.reply("⛔ Bot turned OFF");
 });
 
-/* ================= START ================= */
+/* ================= BOT START ================= */
 
 bot.launch();
 console.log("🤖 Bot Started...");
