@@ -27,24 +27,36 @@ let countryStart = Date.now();
 
 function getLocalizedText(countryCode) {
 
-  const texts = {
+const texts = {
 
-    "+39": "Il tuo codice di verifica è", // Italy
-    "+44": "Your verification code is", // UK
-    "+81": "あなたの確認コードは", // Japan
-    "+92": "آپ کا تصدیقی کوڈ ہے", // Pakistan
-    "+968": "رمز التحقق الخاص بك هو", // Oman
-    "+86": "您的验证码是", // China
-    "+974": "رمز التحقق الخاص بك هو", // Qatar
-    "+973": "رمز التحقق الخاص بك هو", // Bahrain
-    "+47": "Bekreftelseskoden din er", // Norway
-    "+91": "आपका वेरिफिकेशन कोड है", // India
-    "+880": "আপনার ভেরিফিকেশন কোড হলো", // Bangladesh
-    "+1": "Your verification code is" // USA
+"+39": "Il tuo codice di verifica è",  
 
-  };
+"+44": "Your verification code is",  
 
-  return texts[countryCode] || "Your verification code is";
+"+81": "あなたの確認コードは",  
+
+"+92": "آپ کا تصدیقی کوڈ ہے",  
+
+"+968": "رمز التحقق الخاص بك هو",  
+
+"+86": "您的验证码是",  
+
+"+974": "رمز التحقق الخاص بك هو",
+
+"+62": "Kode verifikasi Anda adalah",
+
+"+251": "የማረጋገጫ ኮድዎ ይህ ነው",
+
+"+65": "Your verification code is",
+
+"+98": "کد تأیید شما این است",
+"+973": "رمز التحقق الخاص بك هو",
+
+"+47": "Bekreftelseskoden din er"
+
+};
+
+return texts[countryCode] || "Your verification code is";
 }
 
 /* ================= SPEECH ================= */
