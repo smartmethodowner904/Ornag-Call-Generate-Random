@@ -191,17 +191,12 @@ bot.command("off", (ctx) => {
 });
 
 bot.start((ctx) => {
-  ctx.reply(`👋 Welcome to Ornag Call Bot 🤖✨
 
-🔥 Status: Online
-🌍 System: Orange Panel Call Recording Generator
-🔢 Feature: OTP Voice To Mp3 System
+  ctx.reply(
+"👋 Welcome to Ornag Call Bot 🤖✨\n\n🔥 Status: Online\n🌍 System: Orange Panel Call Recording Generator\n🔢 Feature: OTP Voice To Mp3 System\n\n⚡ Commands:\n▶ /on - Start bot (Admin only)\n⛔ /off - Stop bot (Admin only)\n\n🚀 Enjoy your system!"
+  );
 
-⚡ Commands:
-▶ /on - Start bot (Admin only)
-⛔ /off - Stop bot (Admin only)
-
-🚀 Enjoy your system!
+});
 bot.launch();
 console.log("🤖 Bot Started...");
 
