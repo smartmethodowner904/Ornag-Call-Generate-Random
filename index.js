@@ -166,15 +166,25 @@ async function sendCall() {
 
 <b><i>Powered by Smart Method 🤖</i></b>`;
 
-await bot.telegram.sendAudio(
-  GROUP_ID,
-  { source: file },
-  {
-    caption,
-    parse_mode: "HTML"
-  }
-);
+const sentMsg = await bot.telegram.sendAudio(
+      GROUP_ID,
+      { source: file },
+      {
+        caption,
+        parse_mode: "HTML"
+      }
+    );
 
+    // ⏳ 5 মিনিট পরে মেসেজ ডিলিট
+    setTimeout(async () => {
+      try {
+        await bot.telegram.deleteMessage(GROUP_ID, sentMsg.message_id);
+      } catch (err) {
+        console.log("Delete Error:", err);
+      }
+    }, 300000);
+
+    // 🧹 3 সেকেন্ড পরে ফাইল ডিলিট
     setTimeout(() => fs.remove(file), 3000);
 
   } catch (err) {
@@ -183,7 +193,6 @@ await bot.telegram.sendAudio(
 
   setTimeout(sendCall, getDelay());
 }
-
 /* ================= COMMANDS ================= */
 
 bot.command("on", (ctx) => {
