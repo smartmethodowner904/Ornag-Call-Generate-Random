@@ -140,7 +140,7 @@ async function sendCall() {
     const time = new Date().toLocaleString();
 
     const caption =
-`<b>📞 Telegram Call Alert  📞</b>
+`<b>📞 Telegram Call Alert 📞</b>
 
 ━━━━━━━━━━━━━━
 ⏰ <b>Time:</b> ${time}
@@ -152,16 +152,16 @@ async function sendCall() {
 
 ⚡ <b>Mode:</b> <b>Call To Mp3 Generator</b>
 
-<b><i>Powered by Smart Method 🤖</i></b>
+<b><i>Powered by Smart Method 🤖</i></b>`;
 
-    await bot.telegram.sendAudio(
-      GROUP_ID,
-      { source: file },
-      {
-        caption,
-        parse_mode: "HTML"
-      }
-    );
+await bot.telegram.sendAudio(
+  GROUP_ID,
+  { source: file },
+  {
+    caption,
+    parse_mode: "HTML"
+  }
+);
 
     setTimeout(() => fs.remove(file), 3000);
 
