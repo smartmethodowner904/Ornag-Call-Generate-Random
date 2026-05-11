@@ -153,8 +153,8 @@ async function sendCall() {
 
     const caption =
 `<b>📞 Telegram Call Alert 📞</b>
-
 ━━━━━━━━━━━━━━
+
 ⏰ <b>Time:</b> ${time}
 🌍 <b>Country:</b> ${currentCountry.flag} ${currentCountry.name}
 ☎️ <b>Number:</b> <code>${number}</code>
@@ -162,7 +162,7 @@ async function sendCall() {
 ⏱ <b>Duration:</b> 24s
 ━━━━━━━━━━━━━━
 
-⚡ <b>Mode:</b> <b>Call To Mp3 Generator</b>
+⚡ Mode: Call To Mp3 Generator, <a href="https://t.me/+2R-AXlxNPWthNGFh">Click Here to join</a>
 
 <b><i>Powered by Smart Method 🤖</i></b>`;
 
