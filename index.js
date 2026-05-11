@@ -191,12 +191,23 @@ bot.command("off", (ctx) => {
 /* ================= START ================= */
 
 bot.start((ctx) => {
-  ctx.reply("🤖 Ornag Call Bot Running (TEST MODE)");
+  ctx.reply(
+`👋 Welcome to Ornag Call Bot 🤖✨
+
+🔥 Status: Online & Running
+🌍 System: Random Country Call Generator
+🔢 Feature: OTP Voice + Fake Call Simulation
+
+⚡ Commands:
+▶ /on - Start bot (Admin only)
+⛔ /off - Stop bot (Admin only)
+
+💡 Enjoy your smart call system 🚀
+
+━━━━━━━━━━━━━━
+👑 Powered by Smart Method`
+  );
 });
-
-bot.launch();
-
-console.log("🤖 Bot Started...");
 
 /* ================= LOOP ================= */
 
