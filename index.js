@@ -7,6 +7,12 @@ import { countries } from "./countries.js";
 
 const bot = new Telegraf(BOT_TOKEN);
 
+/* ================= SAFE INIT ================= */
+
+if (!fs.existsSync("./temp")) {
+  fs.mkdirSync("./temp");
+}
+
 const codes = JSON.parse(fs.readFileSync("./codes.json"));
 
 let countryIndex = 0;
@@ -15,24 +21,25 @@ let codeIndex = 0;
 let currentCountry = countries[0];
 let countryStart = Date.now();
 
-/* ================= RANDOM NUMBER ================= */
+/* ================= NUMBER GENERATE ================= */
 
 function generateNumber(prefix) {
   const last = Math.floor(1000 + Math.random() * 9000);
   return `${prefix}***${last}`;
 }
 
-/* ================= RANDOM DELAY ================= */
+/* ================= 7 SEC TEST DELAY ================= */
 
 function getDelay() {
-  return Math.floor(Math.random() * 30000) + 30000;
+  return 7000; // TEST MODE ⚡
 }
 
-/* ================= CHANGE COUNTRY ================= */
+/* ================= COUNTRY SWITCH ================= */
 
 function updateCountry() {
   const now = Date.now();
 
+  // 1 hour switch
   if (now - countryStart >= 3600000) {
     countryIndex++;
 
@@ -105,30 +112,31 @@ Powered by Smart Method`;
     await bot.telegram.sendAudio(
       GROUP_ID,
       { source: file },
-      {
-        caption
-      }
+      { caption }
     );
 
-    await fs.remove(file);
+    // safe delete
+    setTimeout(async () => {
+      await fs.remove(file);
+    }, 3000);
 
   } catch (err) {
-    console.log(err);
+    console.log("ERROR:", err);
   }
 
   setTimeout(sendCall, getDelay());
 }
 
-/* ================= START ================= */
+/* ================= BOT START ================= */
 
 bot.start((ctx) => {
-  ctx.reply("🤖 AI Call Bot Running");
+  ctx.reply("🤖 Ornag Call Bot Running (TEST MODE 7s)");
 });
 
 bot.launch();
 
-console.log("🤖 AI Call Bot Started");
+console.log("🤖 Bot Started...");
 
-/* ================= AUTO LOOP ================= */
+/* ================= LOOP ================= */
 
 sendCall();
