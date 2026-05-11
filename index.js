@@ -175,29 +175,45 @@ async function sendCall() {
 /* ================= COMMANDS ================= */
 
 bot.command("on", (ctx) => {
+
   if (ctx.from.id !== ADMIN_ID) {
     return ctx.reply("🚫 This command is only for admin");
   }
+
   botRunning = true;
+
   ctx.reply("✅ Bot is NOW ON");
+
 });
 
 bot.command("off", (ctx) => {
+
   if (ctx.from.id !== ADMIN_ID) {
     return ctx.reply("🚫 This command is only for admin");
   }
+
   botRunning = false;
+
   ctx.reply("⛔ Bot is NOW OFF");
+
 });
+
+/* ================= START ================= */
 
 bot.start((ctx) => {
 
   ctx.reply(
-"👋 Welcome to Ornag Call Bot 🤖✨\n\n🔥 Status: Online\n🌍 System: Orange Panel Call Recording Generator\n🔢 Feature: OTP Voice To Mp3 System\n\n⚡ Commands:\n▶ /on - Start bot (Admin only)\n⛔ /off - Stop bot (Admin only)\n\n🚀 Enjoy your system!"
+    "👋 Welcome to Ornag Call Bot 🤖✨\n\n🔥 Status: Online\n🌍 System: Orange Panel Call Recording Generator\n🔢 Feature: OTP Voice To Mp3 System\n\n⚡ Commands:\n▶ /on - Start bot (Admin only)\n⛔ /off - Stop bot (Admin only)\n\n🚀 Enjoy your system!"
   );
 
 });
+
+/* ================= BOT START ================= */
+
 bot.launch();
+
 console.log("🤖 Bot Started...");
+
+/* ================= LOOP ================= */
 
 sendCall();
