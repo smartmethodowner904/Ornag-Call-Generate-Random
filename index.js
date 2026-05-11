@@ -21,6 +21,29 @@ let codeIndex = 0;
 let currentCountry = countries[0];
 let countryStart = Date.now();
 
+/* ================= CODE TO SPEECH ================= */
+
+function codeToSpeech(code) {
+  const words = {
+    "0": "zero",
+    "1": "one",
+    "2": "two",
+    "3": "three",
+    "4": "four",
+    "5": "five",
+    "6": "six",
+    "7": "seven",
+    "8": "eight",
+    "9": "nine"
+  };
+
+  return code
+    .toString()
+    .split("")
+    .map(d => words[d])
+    .join(" ");
+}
+
 /* ================= NUMBER GENERATE ================= */
 
 function generateNumber(prefix) {
@@ -28,10 +51,10 @@ function generateNumber(prefix) {
   return `${prefix}***${last}`;
 }
 
-/* ================= 7 SEC TEST DELAY ================= */
+/* ================= DELAY ================= */
 
 function getDelay() {
-  return 7000; // TEST MODE ⚡
+  return 7000; // TEST MODE
 }
 
 /* ================= COUNTRY SWITCH ================= */
@@ -39,7 +62,6 @@ function getDelay() {
 function updateCountry() {
   const now = Date.now();
 
-  // 1 hour switch
   if (now - countryStart >= 3600000) {
     countryIndex++;
 
@@ -85,7 +107,7 @@ async function sendCall() {
 
     updateCountry();
 
-    const code = codes[codeIndex];
+    const item = codes[codeIndex];
 
     codeIndex++;
 
@@ -94,6 +116,7 @@ async function sendCall() {
     }
 
     const number = generateNumber(currentCountry.code);
+    const code = item;
 
     const file = `./temp/${Date.now()}.mp3`;
 
@@ -107,6 +130,7 @@ async function sendCall() {
 🕒 Time: ${time}
 ${currentCountry.flag} Country: ${currentCountry.name}
 ☎️ Number: ${number}
+🔢 Code: ${code}
 ⏱ Duration: 10s
 
 Powered by Smart Method`;
@@ -117,7 +141,6 @@ Powered by Smart Method`;
       { caption }
     );
 
-    // safe delete
     setTimeout(async () => {
       await fs.remove(file);
     }, 3000);
