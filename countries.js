@@ -73,19 +73,11 @@ export const countries = [
     lang: "ja"
   },
 
-  // নতুন দেশগুলো 👇
-
   {
     name: "India",
     code: "+91",
     flag: "🇮🇳",
     lang: "hi"
-  },
-  {
-    name: "USA",
-    code: "+1",
-    flag: "🇺🇸",
-    lang: "en"
   },
   {
     name: "Germany",
@@ -134,7 +126,6 @@ export const countries = [
     code: "+82",
     flag: "🇰🇷",
     lang: "ko"
-  },
-  {
+  }
 
 ];
