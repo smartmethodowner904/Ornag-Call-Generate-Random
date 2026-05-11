@@ -56,12 +56,14 @@ function updateCountry() {
 
 async function createVoice(code, file) {
 
+  const spokenCode = codeToSpeech(code);
+
   const text =
-`Your verification code is ${code}
+`Your verification code is ${spokenCode}
 
 I repeat
 
-Your verification code is ${code}`;
+Your verification code is ${spokenCode}`;
 
   return new Promise((resolve, reject) => {
 
