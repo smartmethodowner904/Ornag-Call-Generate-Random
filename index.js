@@ -130,7 +130,6 @@ ${spokenCode}`;
 
   });
 }
-
 /* ================= SEND CALL ================= */
 
 async function sendCall() {
@@ -161,15 +160,19 @@ async function sendCall() {
     const time = new Date().toLocaleString();
 
     const caption =
-`🔥 NEW 🌍 CALL RECEIVED ✨
+`<b>✨ CALL ALERT SYSTEM</b>
 
-⏰ Time: ${time}
-${currentCountry.flag} Country: ${currentCountry.name}
-☎️ Number: ${number}
-🔢 Code: ${code}
-⏱ Duration: 10s
+━━━━━━━━━━━━━━
+⏰ <b>Time:</b> ${time}
+🌍 <b>Country:</b> ${currentCountry.flag} ${currentCountry.name}
+☎️ <b>Number:</b> <code>${number}</code>
+🔢 <b>Code:</b> <code>XXX-XXX</code>
+⏱ <b>Duration:</b> 10s
+━━━━━━━━━━━━━━
 
-Powered by Smart Method`;
+⚡ <b>Mode:</b> Call To Mp3 Generator
+
+<i>Powered by Smart Method 🤖</i>`;
 
     await bot.telegram.sendAudio(
       GROUP_ID,
