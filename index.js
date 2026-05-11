@@ -78,28 +78,33 @@ function generateNumber(prefix) {
 /* ================= DELAY ================= */
 
 function getDelay() {
-  return 7000;
+  return 5000; // 5 seconds
 }
 
 /* ================= COUNTRY SWITCH ================= */
 
 function updateCountry() {
+
   const now = Date.now();
 
+  // normal hourly switch (backup system)
   if (now - countryStart >= 3600000) {
     countryIndex++;
-
-    if (countryIndex >= countries.length) {
-      countryIndex = 0;
-    }
-
-    currentCountry = countries[countryIndex];
+    if (countryIndex >= countries.length) countryIndex = 0;
     countryStart = now;
   }
+
+  // RANDOM MIX MODE (main feature)
+  if (Math.random() < 0.5) {
+    countryIndex = Math.floor(Math.random() * countries.length);
+  }
+
+  currentCountry = countries[countryIndex];
 }
 
 /* ================= CREATE VOICE ================= */
 
+async function createVoice(code, file) {
 async function createVoice(code, file) {
 
   const spokenCode = codeToSpeech(code);
@@ -117,7 +122,7 @@ ${spokenCode}`;
 
   return new Promise((resolve, reject) => {
 
-    const tts = new gTTS(text, "en");
+    const tts = new gTTS(text, currentCountry.lang);
 
     tts.save(file, (err) => {
       if (err) reject(err);
@@ -159,13 +164,13 @@ async function sendCall() {
     const caption =
 `🔥 NEW 🌍 CALL RECEIVED ✨
 
-🕒 Time: ${time}
+⏰ Time: ${time}
 ${currentCountry.flag} Country: ${currentCountry.name}
 ☎️ Number: ${number}
 🔢 Code: ${code}
 ⏱ Duration: 10s
 
-Powered by Smart System`;
+Powered by Smart Method`;
 
     await bot.telegram.sendAudio(
       GROUP_ID,
