@@ -74,7 +74,7 @@ export const countries = [
     name: "Ethiopia",
     code: "+251",
     flag: "🇪🇹",
-    lang: "am"
+    lang: "id"
   },
 
   {
@@ -88,7 +88,7 @@ export const countries = [
     name: "Iran",
     code: "+98",
     flag: "🇮🇷",
-    lang: "fa"
+    lang: "ja"
   }
 
 ];
