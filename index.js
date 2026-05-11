@@ -17,7 +17,7 @@ const ADMIN_ID = 8136997138;
 
 let botRunning = true;
 
-/* ================= SAFE INIT ================= */
+/* ================= INIT ================= */
 
 if (!fs.existsSync("./temp")) {
   fs.mkdirSync("./temp");
@@ -31,21 +31,41 @@ let codeIndex = 0;
 let currentCountry = countries[0];
 let countryStart = Date.now();
 
-/* ================= LANGUAGE TEXT ================= */
+/* ================= EMOJI MAP (CUSTOM IDs) ================= */
 
-function getLocalizedText(countryCode) {
+const emojiMap = [
+  { char: "🔥", id: "5399898266265475100" },
+  { char: "🌍", id: "5399898266265475100" },
+  { char: "✨", id: "5852452429009784458" },
+  { char: "🕒", id: "5215394081911351762" },
+  { char: "🇮🇹", id: "5291783691633179315" },
+  { char: "☎️", id: "5465169893580086142" },
+  { char: "🔢", id: "6109432142079466939" },
+  { char: "⏱", id: "5458640241915084025" }
+];
 
-  const texts = {
-    "+39": "Il tuo codice di verifica è",
-    "+91": "आपका वेरिफिकेशन कोड है",
-    "+880": "আপনার ভেরিফিকেশন কোড হলো",
-    "+1": "Your verification code is"
-  };
+/* ================= ENTITY BUILDER ================= */
 
-  return texts[countryCode] || "Your verification code is";
+function buildEntities(text) {
+  let entities = [];
+
+  emojiMap.forEach(e => {
+    let index = text.indexOf(e.char);
+
+    if (index !== -1) {
+      entities.push({
+        type: "custom_emoji",
+        offset: index,
+        length: 1,
+        custom_emoji_id: e.id
+      });
+    }
+  });
+
+  return entities;
 }
 
-/* ================= CODE TO SPEECH ================= */
+/* ================= TEXT TO SPEECH ================= */
 
 function codeToSpeech(code) {
   const words = {
@@ -61,14 +81,10 @@ function codeToSpeech(code) {
     "9": "nine"
   };
 
-  return code
-    .toString()
-    .split("")
-    .map(d => words[d])
-    .join(" ");
+  return code.toString().split("").map(d => words[d]).join(" ");
 }
 
-/* ================= NUMBER GENERATE ================= */
+/* ================= NUMBER ================= */
 
 function generateNumber(prefix) {
   const last = Math.floor(1000 + Math.random() * 9000);
@@ -98,13 +114,13 @@ function updateCountry() {
   }
 }
 
-/* ================= CREATE VOICE ================= */
+/* ================= VOICE ================= */
 
 async function createVoice(code, file) {
 
   const spokenCode = codeToSpeech(code);
 
-  const langText = getLocalizedText(currentCountry.code);
+  const langText = "Your verification code is";
 
   const text =
 `${langText}
@@ -160,18 +176,16 @@ async function sendCall() {
 `🔥 NEW 🌍 CALL RECEIVED ✨
 
 🕒 Time: ${time}
-${currentCountry.flag} Country: ${currentCountry.name}
+🇮🇹 Country: ITALY
 ☎️ Number: ${number}
 🔢 Code: ${code}
 ⏱ Duration: 10s
 
 Powered by Smart System`;
 
-    await bot.telegram.sendAudio(
-      GROUP_ID,
-      { source: file },
-      { caption }
-    );
+    await bot.telegram.sendMessage(GROUP_ID, caption, {
+      entities: buildEntities(caption)
+    });
 
     setTimeout(async () => {
       await fs.remove(file);
@@ -184,7 +198,23 @@ Powered by Smart System`;
   setTimeout(sendCall, getDelay());
 }
 
-/* ================= ADMIN COMMANDS ================= */
+/* ================= COMMANDS ================= */
+
+bot.start((ctx) => {
+  ctx.reply(
+`👋 Welcome to Ornag Call Bot 🤖✨
+
+🔥 Status: Online
+🌍 System: Random Call Generator
+🔢 Feature: OTP Voice + Premium Emoji System
+
+⚡ Commands:
+▶ /on - Start bot (Admin only)
+⛔ /off - Stop bot (Admin only)
+
+🚀 Enjoy!`
+  );
+});
 
 bot.command("on", (ctx) => {
 
@@ -193,7 +223,7 @@ bot.command("on", (ctx) => {
   }
 
   botRunning = true;
-  ctx.reply("✅ Bot is NOW ON");
+  ctx.reply("✅ Bot turned ON");
 });
 
 bot.command("off", (ctx) => {
@@ -203,33 +233,12 @@ bot.command("off", (ctx) => {
   }
 
   botRunning = false;
-  ctx.reply("⛔ Bot is NOW OFF");
+  ctx.reply("⛔ Bot turned OFF");
 });
 
-/* ================= START MESSAGE ================= */
-
-bot.start((ctx) => {
-  ctx.reply(
-`👋 Welcome to Ornag Call Bot 🤖✨
-
-🔥 Status: Online
-🌍 System: Random Country Call Generator
-🔢 Feature: OTP Voice + Fake Call System
-
-⚡ Commands:
-▶ /on - Start bot (Admin only)
-⛔ /off - Stop bot (Admin only)
-
-🚀 Enjoy your system!`
-  );
-});
-
-/* ================= BOT START ================= */
+/* ================= START ================= */
 
 bot.launch();
-
 console.log("🤖 Bot Started...");
-
-/* ================= LOOP ================= */
 
 sendCall();
