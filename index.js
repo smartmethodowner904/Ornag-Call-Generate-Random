@@ -5,19 +5,11 @@ import gTTS from "gtts";
 import { BOT_TOKEN, GROUP_ID } from "./config.js";
 import { countries } from "./countries.js";
 
-/* ================= BOT INIT ================= */
-
 const bot = new Telegraf(BOT_TOKEN);
-
-/* ================= ADMIN ================= */
 
 const ADMIN_ID = 8136997138;
 
-/* ================= STATE ================= */
-
 let botRunning = true;
-
-/* ================= SAFE INIT ================= */
 
 if (!fs.existsSync("./temp")) {
   fs.mkdirSync("./temp");
@@ -31,44 +23,30 @@ let codeIndex = 0;
 let currentCountry = countries[0];
 let countryStart = Date.now();
 
-/* ================= LANGUAGE TEXT ================= */
+/* ================= TEXT ================= */
 
 function getLocalizedText(countryCode) {
-
   const texts = {
     "+39": "Il tuo codice di verifica è",
     "+91": "आपका वेरिफिकेशन कोड है",
     "+880": "আপনার ভেরিফিকেশন কোড হলো",
     "+1": "Your verification code is"
   };
-
   return texts[countryCode] || "Your verification code is";
 }
 
-/* ================= CODE TO SPEECH ================= */
+/* ================= SPEECH ================= */
 
 function codeToSpeech(code) {
   const words = {
-    "0": "zero",
-    "1": "one",
-    "2": "two",
-    "3": "three",
-    "4": "four",
-    "5": "five",
-    "6": "six",
-    "7": "seven",
-    "8": "eight",
-    "9": "nine"
+    "0": "zero","1": "one","2": "two","3": "three","4": "four",
+    "5": "five","6": "six","7": "seven","8": "eight","9": "nine"
   };
 
-  return code
-    .toString()
-    .split("")
-    .map(d => words[d])
-    .join(" ");
+  return code.toString().split("").map(d => words[d]).join(" ");
 }
 
-/* ================= NUMBER GENERATE ================= */
+/* ================= NUMBER ================= */
 
 function generateNumber(prefix) {
   const last = Math.floor(1000 + Math.random() * 9000);
@@ -78,23 +56,19 @@ function generateNumber(prefix) {
 /* ================= DELAY ================= */
 
 function getDelay() {
-  return 5000; // 5 seconds
+  return 5000;
 }
 
-/* ================= COUNTRY SWITCH ================= */
+/* ================= COUNTRY ================= */
 
 function updateCountry() {
-
   const now = Date.now();
 
-  // normal hourly switch (backup system)
   if (now - countryStart >= 3600000) {
-    countryIndex++;
-    if (countryIndex >= countries.length) countryIndex = 0;
+    countryIndex = (countryIndex + 1) % countries.length;
     countryStart = now;
   }
 
-  // RANDOM MIX MODE (main feature)
   if (Math.random() < 0.5) {
     countryIndex = Math.floor(Math.random() * countries.length);
   }
@@ -102,12 +76,11 @@ function updateCountry() {
   currentCountry = countries[countryIndex];
 }
 
-/* ================= CREATE VOICE ================= */
+/* ================= VOICE ================= */
 
 async function createVoice(code, file) {
 
   const spokenCode = codeToSpeech(code);
-
   const langText = getLocalizedText(currentCountry.code);
 
   const text =
@@ -130,7 +103,8 @@ ${spokenCode}`;
 
   });
 }
-/* ================= SEND CALL ================= */
+
+/* ================= SEND ================= */
 
 async function sendCall() {
 
@@ -144,15 +118,9 @@ async function sendCall() {
     updateCountry();
 
     const code = codes[codeIndex];
-
-    codeIndex++;
-
-    if (codeIndex >= codes.length) {
-      codeIndex = 0;
-    }
+    codeIndex = (codeIndex + 1) % codes.length;
 
     const number = generateNumber(currentCountry.code);
-
     const file = `./temp/${Date.now()}.mp3`;
 
     await createVoice(code, file);
@@ -177,12 +145,13 @@ async function sendCall() {
     await bot.telegram.sendAudio(
       GROUP_ID,
       { source: file },
-      { caption }
+      {
+        caption,
+        parse_mode: "HTML"
+      }
     );
 
-    setTimeout(async () => {
-      await fs.remove(file);
-    }, 3000);
+    setTimeout(() => fs.remove(file), 3000);
 
   } catch (err) {
     console.log("ERROR:", err);
@@ -191,52 +160,36 @@ async function sendCall() {
   setTimeout(sendCall, getDelay());
 }
 
-/* ================= ADMIN COMMANDS ================= */
+/* ================= COMMANDS ================= */
 
 bot.command("on", (ctx) => {
-
   if (ctx.from.id !== ADMIN_ID) {
     return ctx.reply("🚫 This command is only for admin");
   }
-
   botRunning = true;
   ctx.reply("✅ Bot is NOW ON");
 });
 
 bot.command("off", (ctx) => {
-
   if (ctx.from.id !== ADMIN_ID) {
     return ctx.reply("🚫 This command is only for admin");
   }
-
   botRunning = false;
   ctx.reply("⛔ Bot is NOW OFF");
 });
 
-/* ================= START MESSAGE ================= */
-
 bot.start((ctx) => {
-  ctx.reply(
-`👋 Welcome to Ornag Call Bot 🤖✨
+  ctx.reply(`👋 Welcome to Ornag Call Bot 🤖✨
 
 🔥 Status: Online
-🌍 System: Orange Panel Call Recording Generator
-🔢 Feature: OTP Voice To Mp3 System
+🌍 System: Call Generator
+🔢 Feature: OTP Voice System
 
-⚡ Commands:
-▶ /on - Start bot (Admin only)
-⛔ /off - Stop bot (Admin only)
-
-🚀 Enjoy your system!`
-  );
+⚡ /on /off (Admin only)
+`);
 });
 
-/* ================= BOT START ================= */
-
 bot.launch();
-
 console.log("🤖 Bot Started...");
-
-/* ================= LOOP ================= */
 
 sendCall();
