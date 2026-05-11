@@ -5,6 +5,8 @@ import gTTS from "gtts";
 import { BOT_TOKEN, GROUP_ID } from "./config.js";
 import { countries } from "./countries.js";
 
+/* ================= BOT INIT ================= */
+
 const bot = new Telegraf(BOT_TOKEN);
 
 /* ================= ADMIN ================= */
@@ -15,7 +17,7 @@ const ADMIN_ID = 8136997138;
 
 let botRunning = true;
 
-/* ================= INIT ================= */
+/* ================= SAFE INIT ================= */
 
 if (!fs.existsSync("./temp")) {
   fs.mkdirSync("./temp");
@@ -29,48 +31,21 @@ let codeIndex = 0;
 let currentCountry = countries[0];
 let countryStart = Date.now();
 
-/* ================= PREMIUM EMOJI MAP ================= */
+/* ================= LANGUAGE TEXT ================= */
 
-const emojiMap = [
-  { char: "🔥", id: "5399898266265475100" },
-  { char: "🌍", id: "5852452429009784458" },
-  { char: "✨", id: "5852452429009784458" },
-  { char: "🕒", id: "5215394081911351762" },
-  { char: "🇮🇹", id: "5291783691633179315" },
-  { char: "☎️", id: "5465169893580086142" },
-  { char: "🔢", id: "6109432142079466939" },
-  { char: "⏱", id: "5458640241915084025" }
-];
+function getLocalizedText(countryCode) {
 
-/* ================= SAFE ENTITY BUILDER ================= */
+  const texts = {
+    "+39": "Il tuo codice di verifica è",
+    "+91": "आपका वेरिफिकेशन कोड है",
+    "+880": "আপনার ভেরিফিকেশন কোড হলো",
+    "+1": "Your verification code is"
+  };
 
-function buildEntities(text) {
-
-  let entities = [];
-
-  for (const e of emojiMap) {
-
-    let start = 0;
-
-    while (true) {
-      const index = text.indexOf(e.char, start);
-      if (index === -1) break;
-
-      entities.push({
-        type: "custom_emoji",
-        offset: [...text.slice(0, index)].length,
-        length: [...e.char].length,
-        custom_emoji_id: e.id
-      });
-
-      start = index + e.char.length;
-    }
-  }
-
-  return entities;
+  return texts[countryCode] || "Your verification code is";
 }
 
-/* ================= DIGIT SPEECH ================= */
+/* ================= CODE TO SPEECH ================= */
 
 function codeToSpeech(code) {
   const words = {
@@ -86,10 +61,14 @@ function codeToSpeech(code) {
     "9": "nine"
   };
 
-  return code.toString().split("").map(d => words[d]).join(" ");
+  return code
+    .toString()
+    .split("")
+    .map(d => words[d])
+    .join(" ");
 }
 
-/* ================= NUMBER ================= */
+/* ================= NUMBER GENERATE ================= */
 
 function generateNumber(prefix) {
   const last = Math.floor(1000 + Math.random() * 9000);
@@ -102,7 +81,7 @@ function getDelay() {
   return 7000;
 }
 
-/* ================= COUNTRY ROTATION ================= */
+/* ================= COUNTRY SWITCH ================= */
 
 function updateCountry() {
   const now = Date.now();
@@ -119,14 +98,16 @@ function updateCountry() {
   }
 }
 
-/* ================= VOICE ================= */
+/* ================= CREATE VOICE ================= */
 
 async function createVoice(code, file) {
 
   const spokenCode = codeToSpeech(code);
 
+  const langText = getLocalizedText(currentCountry.code);
+
   const text =
-`Your verification code is
+`${langText}
 
 ${spokenCode}
 
@@ -135,12 +116,14 @@ I repeat
 ${spokenCode}`;
 
   return new Promise((resolve, reject) => {
+
     const tts = new gTTS(text, "en");
 
     tts.save(file, (err) => {
       if (err) reject(err);
       else resolve();
     });
+
   });
 }
 
@@ -177,16 +160,18 @@ async function sendCall() {
 `🔥 NEW 🌍 CALL RECEIVED ✨
 
 🕒 Time: ${time}
-🇮🇹 Country: ITALY
+${currentCountry.flag} Country: ${currentCountry.name}
 ☎️ Number: ${number}
 🔢 Code: ${code}
 ⏱ Duration: 10s
 
 Powered by Smart System`;
 
-    await bot.telegram.sendMessage(GROUP_ID, caption, {
-      entities: buildEntities(caption)
-    });
+    await bot.telegram.sendAudio(
+      GROUP_ID,
+      { source: file },
+      { caption }
+    );
 
     setTimeout(async () => {
       await fs.remove(file);
@@ -199,45 +184,52 @@ Powered by Smart System`;
   setTimeout(sendCall, getDelay());
 }
 
-/* ================= START ================= */
-
-bot.start((ctx) => {
-  ctx.reply(
-`👋 Welcome to Ornag Call Bot 🤖
-
-🔥 Status: Online
-🌍 System: Random Call Generator
-🔢 Feature: OTP Voice + Premium Emoji System
-
-Commands:
-/on - admin only
-/off - admin only`
-  );
-});
-
 /* ================= ADMIN COMMANDS ================= */
 
 bot.command("on", (ctx) => {
+
   if (ctx.from.id !== ADMIN_ID) {
     return ctx.reply("🚫 This command is only for admin");
   }
 
   botRunning = true;
-  ctx.reply("✅ Bot ON");
+  ctx.reply("✅ Bot is NOW ON");
 });
 
 bot.command("off", (ctx) => {
+
   if (ctx.from.id !== ADMIN_ID) {
     return ctx.reply("🚫 This command is only for admin");
   }
 
   botRunning = false;
-  ctx.reply("⛔ Bot OFF");
+  ctx.reply("⛔ Bot is NOW OFF");
 });
 
-/* ================= START BOT ================= */
+/* ================= START MESSAGE ================= */
+
+bot.start((ctx) => {
+  ctx.reply(
+`👋 Welcome to Ornag Call Bot 🤖✨
+
+🔥 Status: Online
+🌍 System: Orange Panel Call Recording Generator
+🔢 Feature: OTP Voice To Mp3 System
+
+⚡ Commands:
+▶ /on - Start bot (Admin only)
+⛔ /off - Stop bot (Admin only)
+
+🚀 Enjoy your system!`
+  );
+});
+
+/* ================= BOT START ================= */
 
 bot.launch();
-console.log("🤖 Bot Running...");
+
+console.log("🤖 Bot Started...");
+
+/* ================= LOOP ================= */
 
 sendCall();
