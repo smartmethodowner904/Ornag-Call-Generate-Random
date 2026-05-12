@@ -61,9 +61,22 @@ const texts = {
 "+65": "Your verification code is",
 
 "+98": "کد تأیید شما این است",
+
 "+973": "رمز التحقق الخاص بك هو",
 
-"+47": "Bekreftelseskoden din er"
+"+47": "Bekreftelseskoden din er",
+
+"+33": "Votre code de vérification est",
+
+"+972": "קוד האימות שלך הוא",
+
+"+49": "Ihr Bestätigungscode lautet",
+
+"+1": "Your verification code is",
+
+"+82": "인증 코드는",
+
+"+90": "Doğrulama kodunuz"
 
 };
 
