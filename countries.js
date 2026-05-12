@@ -81,5 +81,54 @@ export const countries = [
     code: "+98",
     flag: "🇮🇷",
     lang: "ja"
+  },
+
+  {
+    name: "France",
+    code: "+33",
+    flag: "🇫🇷",
+    lang: "fr"
+  },
+
+  {
+    name: "Israel",
+    code: "+972",
+    flag: "🇮🇱",
+    lang: "he"
+  },
+
+  {
+    name: "Germany",
+    code: "+49",
+    flag: "🇩🇪",
+    lang: "de"
+  },
+
+  {
+    name: "United States",
+    code: "+1",
+    flag: "🇺🇸",
+    lang: "en"
+  },
+
+  {
+    name: "Canada",
+    code: "+1",
+    flag: "🇨🇦",
+    lang: "en"
+  },
+
+  {
+    name: "South Korea",
+    code: "+82",
+    flag: "🇰🇷",
+    lang: "ko"
+  },
+
+  {
+    name: "Turkey",
+    code: "+90",
+    flag: "🇹🇷",
+    lang: "tr"
   }
 ];
