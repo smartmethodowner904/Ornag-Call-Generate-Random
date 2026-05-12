@@ -11,7 +11,11 @@ const bot = new Telegraf(BOT_TOKEN);
 const ADMIN_ID = 8136997138;
 
 let botRunning = true;
+/* 🐢 SLOW MODE */
 
+let slowMode = false;
+
+let slowModeTimer = null;
 /* ⏰ AUTO ON TIMER */
 let autoOnTimer = null;
 
@@ -83,7 +87,27 @@ function generateNumber(prefix) {
 /* ================= DELAY ================= */
 
 function getDelay() {
+
+  /* 🐢 SLOW MODE */
+
+  if (slowMode) {
+
+    const delays = [
+      7000,
+      10000,
+      15000
+    ];
+
+    return delays[
+      Math.floor(Math.random() * delays.length)
+    ];
+
+  }
+
+  /* ⚡ NORMAL MODE */
+
   return 5000;
+
 }
 
 /* ================= COUNTRY ================= */
@@ -284,6 +308,53 @@ ${minutes} Minute`
 
 });
 
+/* ================= SLOW MODE ================= */
+
+bot.command("slow", async (ctx) => {
+
+  if (ctx.from.id !== ADMIN_ID) {
+    return ctx.reply("🚫 Admin only command");
+  }
+
+  try {
+
+    /* ✅ ENABLE */
+
+    slowMode = true;
+
+    /* 🔄 REMOVE OLD TIMER */
+
+    if (slowModeTimer) {
+      clearTimeout(slowModeTimer);
+    }
+
+    /* ⏰ AUTO OFF AFTER 5 MIN */
+
+    slowModeTimer = setTimeout(() => {
+
+      slowMode = false;
+
+      ctx.reply(
+        "⚡ Slow Mode Auto OFF"
+      ).catch(() => {});
+
+    }, 300000);
+
+    ctx.reply(
+`🐢 Slow Mode ON
+
+⏰ Duration:
+5 Minute`
+    );
+
+  } catch (e) {
+
+    console.log(e);
+
+  }
+
+});
+
 /* ================= START ================= */
 
 bot.start((ctx) => {
@@ -299,6 +370,26 @@ bot.start((ctx) => {
 bot.launch();
 
 console.log("🤖 Bot Started...");
+
+/* ================= AUTO SLOW ================= */
+
+setInterval(() => {
+
+  slowMode = true;
+
+  console.log("🐢 AUTO SLOW MODE ON");
+
+  /* ⏰ AUTO OFF AFTER 5 MIN */
+
+  setTimeout(() => {
+
+    slowMode = false;
+
+    console.log("⚡ AUTO SLOW MODE OFF");
+
+  }, 300000);
+
+}, 7200000);
 
 /* ================= LOOP ================= */
 
