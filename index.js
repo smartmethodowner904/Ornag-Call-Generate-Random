@@ -393,97 +393,70 @@ bot.command("slow", async (ctx) => {
 });
 /* ================= COUNTRY SYSTEM ================= */
 
-bot.hears(
-  /^\/country (.+)$/i,
-  async (ctx) => {
+bot.hears(/^\/country (.+)$/i, async (ctx) => {
 
-    if (ctx.from.id !== ADMIN_ID) {
+  if (ctx.from.id !== ADMIN_ID) {
+    return ctx.reply("🚫 Admin only command");
+  }
+
+  try {
+
+    const input = ctx.match[1].trim().toLowerCase();
+
+    const isOff = input.endsWith(" off");
+
+    const cleanName = isOff
+      ? input.replace(" off", "").trim()
+      : input;
+
+    /* 🔍 MATCH FULL NAME (LIKE United Kingdom, South Korea) */
+    const foundCountry = countries.find(c =>
+      c.name.toLowerCase() === cleanName
+    );
+
+    if (!foundCountry) {
       return ctx.reply(
-        "🚫 Admin only command"
-      );
-    }
-
-    try {
-
-      const input =
-        ctx.match[1].trim();
-
-      const parts =
-        input.split(" ");
-
-      const countryName =
-        parts[0];
-
-      const isOff =
-        parts[1]?.toLowerCase() === "off";
-
-      const foundCountry =
-        countries.find(
-          c =>
-            c.name.toLowerCase() ===
-            countryName.toLowerCase()
-        );
-
-      if (!foundCountry) {
-
-        return ctx.reply(
 `❌ Country Not Found
 
 Example:
 /country Pakistan
-/country Pakistan off`
-        );
+/country United Kingdom
+/country South Korea off`
+      );
+    }
 
-      }
+    /* ❌ OFF */
+    if (isOff) {
 
-      /* ❌ OFF */
+      enabledCountries = enabledCountries.filter(
+        c => c.name !== foundCountry.name
+      );
 
-      if (isOff) {
-
-        enabledCountries =
-          enabledCountries.filter(
-            c =>
-              c.name.toLowerCase() !==
-              foundCountry.name.toLowerCase()
-          );
-
-        return ctx.reply(
+      return ctx.reply(
 `⛔ Country OFF
 
 🌍 ${foundCountry.flag} ${foundCountry.name}`
-        );
+      );
+    }
 
-      }
+    /* ✅ ON */
+    const exists = enabledCountries.find(
+      c => c.name === foundCountry.name
+    );
 
-      /* ✅ ON */
+    if (!exists) {
+      enabledCountries.push(foundCountry);
+    }
 
-      const alreadyEnabled =
-        enabledCountries.find(
-          c =>
-            c.name.toLowerCase() ===
-            foundCountry.name.toLowerCase()
-        );
-
-      if (!alreadyEnabled) {
-
-        enabledCountries.push(
-          foundCountry
-        );
-
-      }
-
-      ctx.reply(
+    return ctx.reply(
 `✅ Country ON
 
 🌍 ${foundCountry.flag} ${foundCountry.name}`
-      );
+    );
 
-    } catch (e) {
-
-      console.log(e);
-
-    }
-
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 /* ================= START ================= */
