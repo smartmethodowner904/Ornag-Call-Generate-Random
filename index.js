@@ -5,16 +5,19 @@ import gTTS from "gtts";
 import { BOT_TOKEN, GROUP_ID } from "./config.js";
 import { countries } from "./countries.js";
 
+/* ✅ BOT */
 const bot = new Telegraf(BOT_TOKEN);
 
 const ADMIN_ID = 8136997138;
 
 let botRunning = true;
 
+/* ⏰ AUTO ON TIMER */
+let autoOnTimer = null;
+
 if (!fs.existsSync("./temp")) {
   fs.mkdirSync("./temp");
 }
-
 const codes = JSON.parse(fs.readFileSync("./codes.json"));
 
 let countryIndex = 0;
@@ -216,6 +219,68 @@ bot.command("off", (ctx) => {
   botRunning = false;
 
   ctx.reply("⛔ Bot is NOW OFF");
+
+});
+
+/* ================= AUTO TIME SYSTEM ================= */
+
+bot.hears(/^\/time(\d+)$/, async (ctx) => {
+
+  if (ctx.from.id !== ADMIN_ID) {
+    return ctx.reply("🚫 Admin only command");
+  }
+
+  try {
+
+    const minutes =
+      parseInt(ctx.match[1]);
+
+    if (isNaN(minutes) || minutes <= 0) {
+      return ctx.reply("❌ Invalid time");
+    }
+
+    /* ✅ BOT OFF */
+
+    botRunning = false;
+
+    /* ⏰ MINUTES → MILLISECONDS */
+
+    const ms =
+      minutes * 60 * 1000;
+
+    /* 🔄 REMOVE OLD TIMER */
+
+    if (autoOnTimer) {
+      clearTimeout(autoOnTimer);
+    }
+
+    /* ✅ AUTO ON */
+
+    autoOnTimer = setTimeout(() => {
+
+      botRunning = true;
+
+      ctx.reply(
+`✅ Bot Auto ON Successfully
+
+⏰ OFF Time Finished:
+${minutes} Minute`
+      ).catch(() => {});
+
+    }, ms);
+
+    ctx.reply(
+`⛔ Bot OFF Successfully
+
+⏰ Auto ON After:
+${minutes} Minute`
+    );
+
+  } catch (e) {
+
+    console.log(e);
+
+  }
 
 });
 
