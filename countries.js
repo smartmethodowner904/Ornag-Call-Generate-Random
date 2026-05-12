@@ -24,7 +24,7 @@ export const countries = [
     name: "Pakistan",
     code: "+92",
     flag: "🇵🇰",
-    lang: "hi"
+    lang: "in"
   },
 
   {
