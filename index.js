@@ -233,7 +233,7 @@ async function sendCall() {
 ⏱ <b>Duration:</b> 24s
 ━━━━━━━━━━━━━━
 
-⚡ <b>Mode:</b> <b>China Call Recoding</b> — <a href="https://t.me/+2R-AXlxNPWthNGFh">Click Here to join</a>
+⚡ <b>Mode:</b> <b>China  Call  Recoding</b> — <a href="https://t.me/+2R-AXlxNPWthNGFh">Click Here to join</a>
 
 <b><i>Powered by Smart Method 🤖</i></b>`;
 
