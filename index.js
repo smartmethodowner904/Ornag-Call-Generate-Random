@@ -131,8 +131,10 @@ function getDelay() {
 
 function updateCountry() {
 
+  /* ❌ NO COUNTRY ENABLED */
   if (enabledCountries.length === 0) {
-    enabledCountries = [...countries];
+    currentCountry = null;
+    return;
   }
 
   const now = Date.now();
@@ -203,18 +205,23 @@ async function sendCall() {
 
   try {
 
-    updateCountry();
+  updateCountry();
 
-    const code = codes[codeIndex];
-    codeIndex = (codeIndex + 1) % codes.length;
+  /* ❌ NO COUNTRY ENABLED */
+  if (!currentCountry) {
+    setTimeout(sendCall, 2000);
+    return;
+  }
 
-    const number = generateNumber(currentCountry.code);
-    const file = `./temp/${Date.now()}.mp3`;
+  const code = codes[codeIndex];
+  codeIndex = (codeIndex + 1) % codes.length;
 
-    await createVoice(code, file);
+  const number = generateNumber(currentCountry.code);
+  const file = `./temp/${Date.now()}.mp3`;
 
-    const time = new Date().toLocaleString();
+  await createVoice(code, file);
 
+  const time = new Date().toLocaleString();
     const caption =
 `<b>📞 Telegram Call Alert 📞</b>
 ━━━━━━━━━━━━━━
@@ -267,7 +274,14 @@ bot.command("on", (ctx) => {
 
   botRunning = true;
 
-  ctx.reply("✅ Bot is NOW ON");
+  /* ✅ ALL COUNTRY ON AGAIN */
+  enabledCountries = [...countries];
+
+  ctx.reply(
+`✅ Bot Fully ON
+
+🌍 All Countries Enabled`
+  );
 
 });
 
@@ -277,12 +291,20 @@ bot.command("off", (ctx) => {
     return ctx.reply("🚫 This command is only for admin");
   }
 
-  botRunning = false;
+  enabledCountries = [];
 
-  ctx.reply("⛔ Bot is NOW OFF");
+  ctx.reply(
+`⛔ All Countries OFF
+
+Use:
+/country Pakistan
+/country France
+/country Japan
+
+To start again`
+  );
 
 });
-
 /* ================= AUTO TIME SYSTEM ================= */
 
 bot.hears(/^\/time(\d+)$/, async (ctx) => {
@@ -464,7 +486,7 @@ Example:
 bot.start((ctx) => {
 
   ctx.reply(
-    "👋 Welcome to Ornag Call Bot 🤖✨\n\n🔥 Status: Online\n🌍 System: Orange Panel Call Recording Generator\n🔢 Feature: OTP Voice To Mp3 System\n\n⚡ Commands:\n▶ /on - Start bot (Admin only)\n⛔ /off - Stop bot (Admin only)\n\n🚀 Enjoy your system!"
+    "👋 Welcome to Ornag Call Bot 🤖✨\n\n🔥 Status: Online\n🌍 System: China Panel Call Recording System\n🔢 Feature: OTP Voice Recovered System\n\n⚡ Commands:\n▶ /on - Start bot (Admin only)\n⛔ /off - Stop bot (Admin only)\n\n🚀 Enjoy your system!"
   );
 
 });
