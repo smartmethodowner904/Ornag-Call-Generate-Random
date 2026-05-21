@@ -24,7 +24,7 @@ export const countries = [
     name: "Pakistan",
     code: "+92",
     flag: "🇵🇰",
-    lang: "in"
+    lang: "ur"
   },
 
   {
@@ -240,7 +240,7 @@ export const countries = [
   name: "Bangladesh",
   code: "+880",
   flag: "🇧🇩",
-  lang: "bn"
+  lang: "bd"
 },
 
 {
@@ -254,7 +254,7 @@ export const countries = [
   name: "Malaysia",
   code: "+60",
   flag: "🇲🇾",
-  lang: "ms"
+  lang: "en"
 },
 
 {
@@ -296,7 +296,7 @@ export const countries = [
   name: "Afghanistan",
   code: "+93",
   flag: "🇦🇫",
-  lang: "fa"
+  lang: "ar"
 },
 
 {
