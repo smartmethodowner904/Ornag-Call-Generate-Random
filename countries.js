@@ -300,13 +300,6 @@ export const countries = [
 },
 
 {
-  name: "Malaysia",
-  code: "+60",
-  flag: "🇲🇾",
-  lang: "ms"
-},
-
-{
   name: "Morocco",
   code: "+212",
   flag: "🇲🇦",
@@ -332,7 +325,7 @@ export const countries = [
   code: "+41",
   flag: "🇨🇭",
   lang: "de"
-  }
+  },
   
 {
   name: "Mexico",
