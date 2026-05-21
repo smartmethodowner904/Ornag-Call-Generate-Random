@@ -234,11 +234,12 @@ export const countries = [
   code: "+52",
   flag: "🇲🇽",
   lang: "es"
-  }
-  {
-    name: "Turkey",
-    code: "+90",
-    flag: "🇹🇷",
-    lang: "tr"
-  }
+},
+
+{
+  name: "Turkey",
+  code: "+90",
+  flag: "🇹🇷",
+  lang: "tr"
+}
 ];
