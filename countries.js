@@ -240,7 +240,7 @@ export const countries = [
   name: "Bangladesh",
   code: "+880",
   flag: "🇧🇩",
-  lang: "bd"
+  lang: "en"
 },
 
 {
