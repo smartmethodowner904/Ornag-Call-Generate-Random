@@ -124,7 +124,117 @@ export const countries = [
     flag: "🇰🇷",
     lang: "ko"
   },
+{
+  name: "Kuwait",
+  code: "+965",
+  flag: "🇰🇼",
+  lang: "ar"
+},
 
+{
+  name: "Tunisia",
+  code: "+216",
+  flag: "🇹🇳",
+  lang: "ar"
+},
+
+{
+  name: "Nepal",
+  code: "+977",
+  flag: "🇳🇵",
+  lang: "ne"
+},
+
+{
+  name: "Iraq",
+  code: "+964",
+  flag: "🇮🇶",
+  lang: "ar"
+},
+
+{
+  name: "Uzbekistan",
+  code: "+998",
+  flag: "🇺🇿",
+  lang: "uz"
+},
+
+{
+  name: "Vietnam",
+  code: "+84",
+  flag: "🇻🇳",
+  lang: "vi"
+},
+
+{
+  name: "Sri Lanka",
+  code: "+94",
+  flag: "🇱🇰",
+  lang: "si"
+},
+
+{
+  name: "Saudi Arabia",
+  code: "+966",
+  flag: "🇸🇦",
+  lang: "ar"
+},
+
+{
+  name: "Algeria",
+  code: "+213",
+  flag: "🇩🇿",
+  lang: "ar"
+},
+
+{
+  name: "Zimbabwe",
+  code: "+263",
+  flag: "🇿🇼",
+  lang: "en"
+},
+
+{
+  name: "Guyana",
+  code: "+592",
+  flag: "🇬🇾",
+  lang: "en"
+},
+
+{
+  name: "Sudan",
+  code: "+249",
+  flag: "🇸🇩",
+  lang: "ar"
+},
+
+{
+  name: "Nigeria",
+  code: "+234",
+  flag: "🇳🇬",
+  lang: "en"
+},
+
+{
+  name: "Austria",
+  code: "+43",
+  flag: "🇦🇹",
+  lang: "de"
+},
+
+{
+  name: "Philippines",
+  code: "+63",
+  flag: "🇵🇭",
+  lang: "en"
+},
+
+{
+  name: "Mexico",
+  code: "+52",
+  flag: "🇲🇽",
+  lang: "es"
+  }
   {
     name: "Turkey",
     code: "+90",
