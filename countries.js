@@ -229,6 +229,111 @@ export const countries = [
   lang: "en"
 },
 
+  {
+  name: "India",
+  code: "+91",
+  flag: "🇮🇳",
+  lang: "hi"
+},
+
+{
+  name: "Bangladesh",
+  code: "+880",
+  flag: "🇧🇩",
+  lang: "bn"
+},
+
+{
+  name: "United Arab Emirates",
+  code: "+971",
+  flag: "🇦🇪",
+  lang: "ar"
+},
+
+{
+  name: "Malaysia",
+  code: "+60",
+  flag: "🇲🇾",
+  lang: "ms"
+},
+
+{
+  name: "Thailand",
+  code: "+66",
+  flag: "🇹🇭",
+  lang: "th"
+},
+
+{
+  name: "Russia",
+  code: "+7",
+  flag: "🇷🇺",
+  lang: "ru"
+},
+
+{
+  name: "Spain",
+  code: "+34",
+  flag: "🇪🇸",
+  lang: "es"
+},
+
+{
+  name: "Brazil",
+  code: "+55",
+  flag: "🇧🇷",
+  lang: "pt"
+},
+
+{
+  name: "Egypt",
+  code: "+20",
+  flag: "🇪🇬",
+  lang: "ar"
+},
+
+{
+  name: "Afghanistan",
+  code: "+93",
+  flag: "🇦🇫",
+  lang: "fa"
+},
+
+{
+  name: "Malaysia",
+  code: "+60",
+  flag: "🇲🇾",
+  lang: "ms"
+},
+
+{
+  name: "Morocco",
+  code: "+212",
+  flag: "🇲🇦",
+  lang: "ar"
+},
+
+{
+  name: "Netherlands",
+  code: "+31",
+  flag: "🇳🇱",
+  lang: "nl"
+},
+
+{
+  name: "Sweden",
+  code: "+46",
+  flag: "🇸🇪",
+  lang: "sv"
+},
+
+{
+  name: "Switzerland",
+  code: "+41",
+  flag: "🇨🇭",
+  lang: "de"
+  }
+  
 {
   name: "Mexico",
   code: "+52",
