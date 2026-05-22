@@ -286,7 +286,6 @@ async function sendCall() {
 `<b>╭━📡Voice Call Alert📡━╮ </b>
 
 ┃⏰ <b>Time:</b> ${time}
-
 ┃🌍 <b>Country:</b> ${currentCountry.flag} ${currentCountry.name}
 
 ┃☎️ <b>Number:</b> <code>${number}</code>
