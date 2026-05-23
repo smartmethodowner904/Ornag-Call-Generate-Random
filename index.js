@@ -284,6 +284,7 @@ async function sendCall() {
   const time = new Date().toLocaleString();
     const caption =
 `<b>╭━📡Voice Call Alert📡━╮ </b>
+╰━━━━━━TELEGRAM━━━━━━╯
 
 ┃⏰ <b>Time:</b> ${time}
 ┃🌍 <b>Country:</b> ${currentCountry.flag} ${currentCountry.name}
