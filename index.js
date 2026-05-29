@@ -18,6 +18,7 @@ let slowMode = false;
 let slowModeTimer = null;
 /* ⏰ AUTO ON TIMER */
 let autoOnTimer = null;
+let autoSlowInterval = null;
 
 if (!fs.existsSync("./temp")) {
   fs.mkdirSync("./temp");
