@@ -346,7 +346,7 @@ export const countries = [
   code: "+90",
   flag: "🇹🇷",
   lang: "tr"
-}
+},
 
 {
   name: "South Africa",
