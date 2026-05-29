@@ -314,7 +314,7 @@ const sentMsg = await bot.telegram.sendAudio(
       } catch (err) {
         console.log("Delete Error:", err);
       }
-    }, 300000);
+    },420000);
 
     // 🧹 3 সেকেন্ড পরে ফাইল ডিলিট
     setTimeout(() => fs.remove(file), 3000);
