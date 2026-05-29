@@ -333,11 +333,403 @@ export const countries = [
   flag: "🇲🇽",
   lang: "es"
 },
-
+  
+{
+  name: "Lebanon",
+  code: "+961",
+  flag: "🇱🇧",
+  lang: "en"
+},
+    
 {
   name: "Turkey",
   code: "+90",
   flag: "🇹🇷",
   lang: "tr"
 }
+
+{
+  name: "South Africa",
+  code: "+27",
+  flag: "🇿🇦",
+  lang: "en"
+},
+
+{
+  name: "Argentina",
+  code: "+54",
+  flag: "🇦🇷",
+  lang: "es"
+},
+
+{
+  name: "Colombia",
+  code: "+57",
+  flag: "🇨🇴",
+  lang: "es"
+},
+
+{
+  name: "Peru",
+  code: "+51",
+  flag: "🇵🇪",
+  lang: "es"
+},
+
+{
+  name: "Chile",
+  code: "+56",
+  flag: "🇨🇱",
+  lang: "es"
+},
+
+{
+  name: "Portugal",
+  code: "+351",
+  flag: "🇵🇹",
+  lang: "pt"
+},
+
+{
+  name: "Belgium",
+  code: "+32",
+  flag: "🇧🇪",
+  lang: "en"
+},
+
+{
+  name: "Denmark",
+  code: "+45",
+  flag: "🇩🇰",
+  lang: "en"
+},
+
+{
+  name: "Finland",
+  code: "+358",
+  flag: "🇫🇮",
+  lang: "en"
+},
+
+{
+  name: "Greece",
+  code: "+30",
+  flag: "🇬🇷",
+  lang: "en"
+},
+
+{
+  name: "Poland",
+  code: "+48",
+  flag: "🇵🇱",
+  lang: "en"
+},
+
+{
+  name: "Romania",
+  code: "+40",
+  flag: "🇷🇴",
+  lang: "en"
+},
+
+{
+  name: "Ukraine",
+  code: "+380",
+  flag: "🇺🇦",
+  lang: "en"
+},
+
+{
+  name: "Kenya",
+  code: "+254",
+  flag: "🇰🇪",
+  lang: "en"
+},
+
+{
+  name: "Ethiopia",
+  code: "+251",
+  flag: "🇪🇹",
+  lang: "en"
+},
+
+{
+  name: "Tanzania",
+  code: "+255",
+  flag: "🇹🇿",
+  lang: "en"
+},
+
+{
+  name: "Uganda",
+  code: "+256",
+  flag: "🇺🇬",
+  lang: "en"
+},
+
+{
+  name: "New Zealand",
+  code: "+64",
+  flag: "🇳🇿",
+  lang: "en"
+},
+
+{
+  name: "Australia",
+  code: "+61",
+  flag: "🇦🇺",
+  lang: "en"
+},
+
+{
+  name: "Ireland",
+  code: "+353",
+  flag: "🇮🇪",
+  lang: "en"
+},
+
+{
+  name: "Czech Republic",
+  code: "+420",
+  flag: "🇨🇿",
+  lang: "en"
+},
+
+{
+  name: "Hungary",
+  code: "+36",
+  flag: "🇭🇺",
+  lang: "en"
+},
+
+{
+  name: "Croatia",
+  code: "+385",
+  flag: "🇭🇷",
+  lang: "en"
+},
+
+{
+  name: "Serbia",
+  code: "+381",
+  flag: "🇷🇸",
+  lang: "en"
+},
+
+{
+  name: "Jordan",
+  code: "+962",
+  flag: "🇯🇴",
+  lang: "en"
+}, 
+
+{
+  name: "Belarus",
+  code: "+375",
+  flag: "🇧🇾",
+  lang: "en"
+},
+
+{
+  name: "Kazakhstan",
+  code: "+7",
+  flag: "🇰🇿",
+  lang: "en"
+},
+
+{
+  name: "Mongolia",
+  code: "+976",
+  flag: "🇲🇳",
+  lang: "en"
+},
+
+{
+  name: "Cambodia",
+  code: "+855",
+  flag: "🇰🇭",
+  lang: "en"
+},
+
+{
+  name: "Laos",
+  code: "+856",
+  flag: "🇱🇦",
+  lang: "en"
+},
+
+{
+  name: "Myanmar",
+  code: "+95",
+  flag: "🇲🇲",
+  lang: "en"
+},
+
+{
+  name: "Yemen",
+  code: "+967",
+  flag: "🇾🇪",
+  lang: "en"
+},
+
+{
+  name: "Syria",
+  code: "+963",
+  flag: "🇸🇾",
+  lang: "en"
+},
+
+{
+  name: "Palestine",
+  code: "+970",
+  flag: "🇵🇸",
+  lang: "en"
+},
+
+{
+  name: "Libya",
+  code: "+218",
+  flag: "🇱🇾",
+  lang: "en"
+},
+
+{
+  name: "Cameroon",
+  code: "+237",
+  flag: "🇨🇲",
+  lang: "en"
+},
+
+{
+  name: "Ghana",
+  code: "+233",
+  flag: "🇬🇭",
+  lang: "en"
+},
+
+{
+  name: "Senegal",
+  code: "+221",
+  flag: "🇸🇳",
+  lang: "en"
+},
+
+{
+  name: "Angola",
+  code: "+244",
+  flag: "🇦🇴",
+  lang: "en"
+},
+
+{
+  name: "Mozambique",
+  code: "+258",
+  flag: "🇲🇿",
+  lang: "en"
+},
+
+{
+  name: "Madagascar",
+  code: "+261",
+  flag: "🇲🇬",
+  lang: "en"
+},
+
+{
+  name: "Paraguay",
+  code: "+595",
+  flag: "🇵🇾",
+  lang: "en"
+},
+
+{
+  name: "Uruguay",
+  code: "+598",
+  flag: "🇺🇾",
+  lang: "en"
+},
+
+{
+  name: "Bolivia",
+  code: "+591",
+  flag: "🇧🇴",
+  lang: "en"
+},
+
+{
+  name: "Venezuela",
+  code: "+58",
+  flag: "🇻🇪",
+  lang: "en"
+},
+
+{
+  name: "Cuba",
+  code: "+53",
+  flag: "🇨🇺",
+  lang: "en"
+},
+
+{
+  name: "Dominican Republic",
+  code: "+1",
+  flag: "🇩🇴",
+  lang: "en"
+},
+
+{
+  name: "Jamaica",
+  code: "+1",
+  flag: "🇯🇲",
+  lang: "en"
+},
+
+{
+  name: "Iceland",
+  code: "+354",
+  flag: "🇮🇸",
+  lang: "en"
+},
+
+{
+  name: "Luxembourg",
+  code: "+352",
+  flag: "🇱🇺",
+  lang: "en"
+},
+
+{
+  name: "Slovakia",
+  code: "+421",
+  flag: "🇸🇰",
+  lang: "en"
+},
+
+{
+  name: "Slovenia",
+  code: "+386",
+  flag: "🇸🇮",
+  lang: "en"
+},
+
+{
+  name: "Estonia",
+  code: "+372",
+  flag: "🇪🇪",
+  lang: "en"
+},
+
+{
+  name: "Latvia",
+  code: "+371",
+  flag: "🇱🇻",
+  lang: "en"
+},
+
+{
+  name: "Lithuania",
+  code: "+370",
+  flag: "🇱🇹",
+  lang: "en"
+},
 ];
