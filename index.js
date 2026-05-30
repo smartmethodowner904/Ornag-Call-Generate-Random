@@ -11,18 +11,31 @@ const bot = new Telegraf(BOT_TOKEN);
 const ADMIN_ID = 8136997138;
 
 let botRunning = true;
+
 /* 🐢 SLOW MODE */
 
 let slowMode = false;
 
 let slowModeTimer = null;
+
+/* ⚡ FAST MODE */
+
+let fastMode = false;
+
+let fastModeTimer = null;
+
 /* ⏰ AUTO ON TIMER */
+
 let autoOnTimer = null;
+let autoSlowInterval = null;
 
 if (!fs.existsSync("./temp")) {
   fs.mkdirSync("./temp");
 }
-const codes = JSON.parse(fs.readFileSync("./codes.json"));
+
+const codes = JSON.parse(
+  fs.readFileSync("./codes.json")
+);
 
 let countryIndex = 0;
 let codeIndex = 0;
@@ -32,8 +45,9 @@ let countryStart = Date.now();
 
 /* ✅ ENABLED COUNTRIES */
 
-let enabledCountries =
-  [...countries];
+let enabledCountries = [
+  ...countries
+];
 /* ================= TEXT ================= */
 
 function getLocalizedText(countryCode) {
@@ -113,6 +127,121 @@ const texts = {
 "+52": "Su código de verificación es",
   
 "+974": "رمز التحقق الخاص بك هو",
+  "+27": "Your verification code is",
+
+"+54": "Your verification code is",
+
+"+57": "Your verification code is",
+
+"+51": "Your verification code is",
+
+"+56": "Your verification code is",
+
+"+351": "Your verification code is",
+
+"+32": "Your verification code is",
+
+"+45": "Your verification code is",
+
+"+358": "Your verification code is",
+
+"+30": "Your verification code is",
+
+"+48": "Your verification code is",
+
+"+40": "Your verification code is",
+
+"+380": "Your verification code is",
+
+"+254": "Your verification code is",
+
+"+255": "Your verification code is",
+
+"+256": "Your verification code is",
+
+"+64": "Your verification code is",
+
+"+61": "Your verification code is",
+
+"+353": "Your verification code is",
+
+"+420": "Your verification code is",
+
+"+36": "Your verification code is",
+
+"+39": "Il tuo codice di verifica è",
+
+"+44": "Your verification code is",
+
+"+81": "あなたの確認コードは",
+
+"+92": "آپ کا تصدیقی کوڈ ہے",
+
+"+968": "رمز التحقق الخاص بك هو",
+
+"+86": "您的验证码是",
+
+"+91": "आपका सत्यापन कोड है",
+
+"+880": "আপনার ভেরিফিকেশন কোড হলো",
+
+"+971": "رمز التحقق الخاص بك هو",
+
+"+60": "Kod pengesahan anda ialah",
+
+"+66": "รหัสยืนยันของคุณคือ",
+
+"+7": "Ваш код подтверждения",
+
+"+34": "Su código de verificación es",
+
+"+55": "Seu código de verificação é",
+
+"+20": "رمز التحقق الخاص بك هو",
+
+"+93": "کد تأیید شما این است",
+
+"+212": "رمز التحقق الخاص بك هو",
+
+"+31": "Uw verificatiecode is",
+
+"+46": "Din verifieringskod är",
+
+"+41": "Ihr Bestätigungscode lautet",
+
+"+965": "رمز التحقق الخاص بك هو",
+
+"+216": "رمز التحقق الخاص بك هو",
+
+"+977": "तपाईंको प्रमाणीकरण कोड हो",
+
+"+964": "رمز التحقق الخاص بك هو",
+
+"+998": "Tasdiqlash kodingiz",
+
+"+84": "Mã xác minh của bạn là",
+
+"+94": "ඔබගේ තහවුරු කිරීමේ කේතය",
+
+"+966": "رمز التحقق الخاص بك هو",
+
+"+213": "رمز التحقق الخاص بك هو",
+
+"+263": "Your verification code is",
+
+"+592": "Your verification code is",
+
+"+249": "رمز التحقق الخاص بك هو",
+
+"+234": "Your verification code is",
+
+"+43": "Ihr Bestätigungscode lautet",
+
+"+63": "Your verification code is",
+
+"+52": "Su código de verificación es",
+
+"+974": "رمز التحقق الخاص بك هو",
 
 "+62": "Kode verifikasi Anda adalah",
 
@@ -137,7 +266,6 @@ const texts = {
 "+82": "인증 코드는",
 
 "+90": "Doğrulama kodunuz"
-
 };
 
 return texts[countryCode] || "Hello Your verification code is";
@@ -165,14 +293,30 @@ function generateNumber(prefix) {
 
 function getDelay() {
 
+  /* ⚡ FAST MODE */
+
+  if (fastMode) {
+
+    const delays = [
+      1000,
+      1500,
+      2000
+    ];
+
+    return delays[
+      Math.floor(Math.random() * delays.length)
+    ];
+
+  }
+
   /* 🐢 SLOW MODE */
 
   if (slowMode) {
 
     const delays = [
-      7000,
-      10000,
-      15000
+      12000,
+      18000,
+      25000
     ];
 
     return delays[
@@ -183,7 +327,15 @@ function getDelay() {
 
   /* ⚡ NORMAL MODE */
 
-  return 5000;
+  const normalDelays = [
+    4000,
+    5000,
+    6000
+  ];
+
+  return normalDelays[
+    Math.floor(Math.random() * normalDelays.length)
+  ];
 
 }
 
@@ -314,7 +466,7 @@ const sentMsg = await bot.telegram.sendAudio(
       } catch (err) {
         console.log("Delete Error:", err);
       }
-    },420000);
+    }, 300000);
 
     // 🧹 3 সেকেন্ড পরে ফাইল ডিলিট
     setTimeout(() => fs.remove(file), 3000);
@@ -335,8 +487,10 @@ bot.command("on", (ctx) => {
 
   botRunning = true;
 
-  /* ✅ ALL COUNTRY ON AGAIN */
-  enabledCountries = [...countries];
+startAutoSlowMode();
+
+/* ✅ ALL COUNTRY ON AGAIN */
+enabledCountries = [...countries];
 
   ctx.reply(
 `✅ Bot Fully ON
@@ -352,17 +506,40 @@ bot.command("off", (ctx) => {
     return ctx.reply("🚫 This command is only for admin");
   }
 
+  botRunning = false;
+
   enabledCountries = [];
 
+  slowMode = false;
+  fastMode = false;
+
+  if (slowModeTimer) {
+    clearTimeout(slowModeTimer);
+  }
+
+  if (fastModeTimer) {
+    clearTimeout(fastModeTimer);
+  }
+
+  if (autoOnTimer) {
+    clearTimeout(autoOnTimer);
+  }
+
+  if (autoSlowInterval) {
+    clearInterval(autoSlowInterval);
+    autoSlowInterval = null;
+  }
+
   ctx.reply(
-`⛔ All Countries OFF
+`⛔ BOT FULLY OFF
 
-Use:
-/country Pakistan
-/country France
-/country Japan
+❌ All Systems Disabled
+❌ All Countries Disabled
+❌ Auto Slow OFF
+❌ Fast Mode OFF
+❌ Slow Mode OFF
 
-To start again`
+✅ Bot Will Stay OFF Until /on`
   );
 
 });
@@ -375,7 +552,7 @@ bot.hears(/^\/time(\d+)$/, async (ctx) => {
   }
 
   try {
-
+    
     const minutes =
       parseInt(ctx.match[1]);
 
@@ -441,7 +618,9 @@ bot.command("slow", async (ctx) => {
     /* ✅ ENABLE */
 
     slowMode = true;
-
+    
+fastMode = false;
+    
     /* 🔄 REMOVE OLD TIMER */
 
     if (slowModeTimer) {
@@ -461,10 +640,85 @@ bot.command("slow", async (ctx) => {
     }, 300000);
 
     ctx.reply(
-`🐢 Slow Mode ON
+`🐢 SLOW MODE ON
+
+⚡ Fast Mode OFF
+🐢 Slow Mode Activated
 
 ⏰ Duration:
 5 Minute`
+);
+
+  } catch (e) {
+
+    console.log(e);
+
+  }
+
+});
+/* ================= FAST MODE ================= */
+
+bot.command("fast", async (ctx) => {
+
+  if (ctx.from.id !== ADMIN_ID) {
+    return ctx.reply("🚫 Admin only command");
+  }
+
+  try {
+
+    fastMode = true;
+    slowMode = false;
+
+    if (fastModeTimer) {
+      clearTimeout(fastModeTimer);
+    }
+
+    fastModeTimer = setTimeout(() => {
+
+      fastMode = false;
+
+      ctx.reply(
+        "⚡ Fast Mode Auto OFF"
+      ).catch(() => {});
+
+    }, 300000);
+
+    ctx.reply(
+`⚡ FAST MODE ON
+
+🚀 Super Fast Sending Started
+
+⏰ Duration:
+5 Minute`
+    );
+
+  } catch (e) {
+
+    console.log(e);
+
+  }
+
+});
+/* ================= NORMAL MODE ================= */
+
+bot.command("normal", async (ctx) => {
+
+  if (ctx.from.id !== ADMIN_ID) {
+    return ctx.reply("🚫 Admin only command");
+  }
+
+  try {
+
+    fastMode = false;
+    slowMode = false;
+
+    ctx.reply(
+`✅ NORMAL MODE ON
+
+⚡ Fast OFF
+🐢 Slow OFF
+
+🚀 System Back To Normal`
     );
 
   } catch (e) {
@@ -530,7 +784,11 @@ Example:
     if (!exists) {
       enabledCountries.push(foundCountry);
     }
+botRunning = true;
 
+if (!autoSlowInterval) {
+  startAutoSlowMode();
+}
     return ctx.reply(
 `✅ Country ON
 
@@ -557,26 +815,36 @@ bot.start((ctx) => {
 bot.launch();
 
 console.log("🤖 Bot Started...");
+startAutoSlowMode();
 
-/* ================= AUTO SLOW ================= */
+/* ================= AUTO RANDOM SLOW ================= */
 
-setInterval(() => {
+function startAutoSlowMode() {
 
-  slowMode = true;
+  if (autoSlowInterval) {
+    clearInterval(autoSlowInterval);
+  }
 
-  console.log("🐢 AUTO SLOW MODE ON");
+  autoSlowInterval = setInterval(() => {
 
-  /* ⏰ AUTO OFF AFTER 5 MIN */
+    if (!botRunning) return;
 
-  setTimeout(() => {
+    slowMode = true;
+    fastMode = false;
 
-    slowMode = false;
+    console.log("🐢 AUTO SLOW MODE ON");
 
-    console.log("⚡ AUTO SLOW MODE OFF");
+    setTimeout(() => {
 
-  }, 300000);
+      slowMode = false;
 
-}, 7200000);
+      console.log("⚡ AUTO SLOW MODE OFF");
+
+    }, 300000);
+
+  }, 7200000);
+
+}
 
 /* ================= LOOP ================= */
 
