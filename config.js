@@ -1,2 +1,2 @@
-export const BOT_TOKEN = "8661744403:AAGpGGRmPvNkxPC4yJMx_Y35XC6fTTI-y6Y";
-export const GROUP_ID = "-1003820143618";
+export const BOT_TOKEN = "8800112653:AAG5S25ZD6LpdxHXqG8pJVulvcXkcOIivvY";
+export const GROUP_ID = "-1003527248014";
